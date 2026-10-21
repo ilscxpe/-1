@@ -1,0 +1,1230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef1f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121719" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Финучёт КР">
+<meta name="description" content="Тренажёр к КР №1 по финансовому учёту: билеты, экзамен, счета, баланс, проводки.">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Билеты по финучёту</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Literata:opsz,wght@7..72,600&display=swap">
+<style>
+/* Layout: one narrow phone column; sticky top bar, sticky bottom action bar in thumb reach. Calm graphite + sage. */
+:root{
+  --bg:#eef1f0; --surface:#ffffff; --ink:#1e282b; --muted:#637176; --line:#d9e0de; --soft:#e5ebe9;
+  --accent:#3b6f63; --accent-soft:#dfeae6; --good:#3c7656; --good-soft:#e1eee6; --bad:#a65448; --bad-soft:#f5e6e3; --warn:#8a6a2c; --warn-soft:#f2ead8;
+  --f-body:"Golos Text", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --f-head:"Literata", Georgia, serif;
+  --f-num:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121719; --surface:#1a2124; --ink:#e1e8e6; --muted:#93a2a6; --line:#2a3438; --soft:#222b2e;
+  --accent:#86baa9; --accent-soft:#213430; --good:#7fb894; --good-soft:#1f3329; --bad:#de8f84; --bad-soft:#3a2623; --warn:#d4b06c; --warn-soft:#342c1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121719; --surface:#1a2124; --ink:#e1e8e6; --muted:#93a2a6; --line:#2a3438; --soft:#222b2e;
+  --accent:#86baa9; --accent-soft:#213430; --good:#7fb894; --good-soft:#1f3329; --bad:#de8f84; --bad-soft:#3a2623; --warn:#d4b06c; --warn-soft:#342c1b; color-scheme:dark}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.45;touch-action:manipulation;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+button{font:inherit;color:inherit}
+.app{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px}
+.top h1{font:600 17px/1.2 var(--f-body);margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}
+.iconbtn svg{width:20px;height:20px;stroke:var(--ink)}
+.counter{font:500 14px var(--f-num);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.view{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px));display:grid;gap:16px}
+@media (prefers-reduced-motion:no-preference){.fade{animation:fade .18s ease-out}@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+
+/* home */
+.hero{padding-top:8px;display:grid;gap:4px}
+.hero h2{font:600 28px/1.15 var(--f-head);margin:0;text-wrap:balance}
+.hero p{margin:0;color:var(--muted);font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:2px}
+.stat b{font:500 22px var(--f-num);font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted);line-height:1.25}
+.primary{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:64px;padding:14px 18px;border-radius:var(--r);border:0;background:var(--accent);color:var(--surface);cursor:pointer;text-align:left}
+.primary b{font-size:18px;font-weight:600;display:block}
+.primary span{font-size:14px;opacity:.85}
+.menu{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.mitem{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:12px 16px;border:0;background:none;text-align:left;cursor:pointer;border-top:1px solid var(--soft)}
+.mitem:first-child{border-top:0}
+.mitem .t{flex:1;min-width:0;display:grid}
+.mitem .t b{font-weight:500;font-size:17px}
+.mitem .t span{font-size:13.5px;color:var(--muted)}
+.mitem .chev{color:var(--muted);flex:none}
+.badge{font:500 13px var(--f-num);padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--muted);flex:none}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.resume{background:var(--accent-soft);border:1px solid transparent;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;width:100%;text-align:left}
+.resume .t{flex:1;display:grid}.resume b{font-weight:600}.resume span{font-size:14px;color:var(--muted)}
+.foot{display:grid;gap:10px;font-size:13.5px;color:var(--muted);padding-top:4px}
+.foot .row{display:flex;flex-wrap:wrap;gap:8px}
+.chipbtn{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 14px;font-size:14px;cursor:pointer;min-height:38px}
+.chipbtn.danger{color:var(--bad)}
+
+/* grid of tickets */
+.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tile{aspect-ratio:1;max-width:100%;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;align-content:center;gap:0;cursor:pointer;font:500 18px var(--f-num)}
+.tile small{font:400 11px var(--f-body);color:var(--muted)}
+.tile.ok{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.tile.err small{color:var(--bad)}
+.note{font-size:14px;color:var(--muted)}
+.bar{height:4px;border-radius:4px;background:var(--soft);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+
+/* quiz */
+.pills{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:2px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:none;min-width:34px;height:34px;padding:0 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font:500 13px var(--f-num);color:var(--muted);cursor:pointer}
+.pill.cur{border-color:var(--ink);color:var(--ink)}
+.pill.ok{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.pill.bad{background:var(--bad-soft);border-color:transparent;color:var(--bad)}
+.pill.cur.ok,.pill.cur.bad{outline:1.5px solid var(--ink);outline-offset:1px}
+.qtag{font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.qtext{font-size:19px;line-height:1.4;font-weight:500;margin:0;text-wrap:pretty}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;min-height:54px;padding:14px 16px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);text-align:left;cursor:pointer;font-size:16.5px;line-height:1.35}
+.opt .mk{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600;margin-top:-1px}
+.opt.ok{border-color:var(--good);background:var(--good-soft)}
+.opt.ok .mk{border-color:var(--good);background:var(--good);color:var(--surface)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.bad .mk{border-color:var(--bad);background:var(--bad);color:var(--surface)}
+.opt.dim{opacity:.6}
+.opt:disabled{cursor:default;color:var(--ink)}
+.opt:focus-visible,.primary:focus-visible,.mitem:focus-visible,.chipbtn:focus-visible,.pill:focus-visible,.tile:focus-visible,.iconbtn:focus-visible,.act:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.expl{border-radius:var(--r);background:var(--surface);border:1px solid var(--line);padding:14px 16px;font-size:15.5px;display:grid;gap:4px}
+.expl b{font-weight:600}
+.expl.good b{color:var(--good)}.expl.bad b{color:var(--bad)}
+.mono{font-family:var(--f-num);font-size:.94em}
+
+/* bottom bar */
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg);border-top:1px solid var(--line);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.bottom .in{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;gap:10px}
+.act{flex:1;min-height:52px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:17px;cursor:pointer}
+.act.main{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.act.ghost{flex:0 0 auto;padding:0 18px;font-weight:500;color:var(--muted)}
+
+/* result */
+.res{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:6px;text-align:center}
+.res .big{font:600 44px/1 var(--f-num);font-variant-numeric:tabular-nums}
+.res .st{font-weight:600}.res .st.good{color:var(--good)}.res .st.bad{color:var(--bad)}
+.res p{margin:0;color:var(--muted);font-size:14.5px}
+.wrong{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.witem{padding:12px 16px;border-top:1px solid var(--soft);display:grid;gap:4px;font-size:15px}
+.witem:first-child{border-top:0}
+.witem .a{color:var(--good);font-size:14.5px}
+.witem .tag{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+h3.sec{font:600 15px var(--f-body);margin:6px 2px 0;color:var(--muted)}
+.entry{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slot{display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;cursor:text}
+.slot span{font-size:13px;color:var(--muted)}
+.slot input{font:500 28px var(--f-num);border:0;background:transparent;color:var(--ink);width:100%;padding:0;outline:none;min-width:0}
+.slot input::placeholder{color:var(--line)}
+.slot.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.slot.ok{border-color:var(--good);background:var(--good-soft)}
+.slot.bad{border-color:var(--bad);background:var(--bad-soft)}
+.keypad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.key{min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font:500 15px var(--f-num);color:var(--ink);cursor:pointer}
+.key:active{background:var(--soft)}
+.legend{font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:flex;flex-wrap:wrap;gap:2px 12px}
+.legend b{color:var(--ink);font-weight:600}
+.scard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:10px}
+.scard.ok{border-color:var(--good)}.scard.bad{border-color:var(--bad)}
+.sitem{display:flex;gap:10px;font-size:16px;line-height:1.35}
+.sn{font:500 13px var(--f-num);color:var(--muted);min-width:18px;padding-top:2px}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.seg button{min-height:42px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600;font-size:15px;cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.seg button.right{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.seg button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.seg button:disabled{cursor:default}
+.seg button:focus-visible,.key:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sexpl{font-size:14px;color:var(--muted)}
+.tile.mid{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.tile.weak{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.tile.none{background:var(--bad-soft);border-color:transparent;color:var(--bad)}
+.tile.mid small,.tile.weak small,.tile.none small{color:inherit}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px;flex:none}
+.dot.ok,.dot.great{background:var(--good)}.dot.mid,.dot.good{background:var(--accent)}.dot.weak,.dot.bad{background:var(--warn)}.dot.none{background:var(--bad)}.dot.fresh{background:var(--line)}
+.opt.idk{border-style:dashed;color:var(--muted)}
+.opt.idk .mk{border-style:dashed}
+.lvgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lv{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:3px;cursor:pointer;align-content:start}
+.lv .lvn{font:500 26px/1.1 var(--f-num);font-variant-numeric:tabular-nums}
+.lv b{font-weight:600;font-size:15px;display:flex;align-items:center}
+.lv .d{font-size:12.5px;color:var(--muted);line-height:1.3}
+.lv:disabled{opacity:.55;cursor:default}
+.lv:focus-visible,.arow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.seg3{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.arow{display:flex;gap:12px;align-items:center;width:100%;min-height:50px;padding:10px 16px;border:0;border-top:1px solid var(--soft);background:none;text-align:left;cursor:pointer;font-size:16px;color:var(--ink)}
+.arow:first-child{border-top:0}
+.arow .no{font:500 16px var(--f-num);min-width:30px;color:var(--accent)}
+.arow .nm{flex:1;min-width:0}
+.hide-nm .arow:not(.reveal) .nm,.hide-no .arow:not(.reveal) .no{color:transparent;background:var(--soft);border-radius:6px}
+.brow{display:flex;gap:10px;align-items:baseline;padding:10px 16px;border-top:1px solid var(--soft);font-size:15px}
+.brow:first-child{border-top:0}
+.brow .bn{flex:1;min-width:0}
+.brow .ba{font:500 15px var(--f-num);white-space:nowrap;font-variant-numeric:tabular-nums}
+.brow .btag{font:600 12px var(--f-body);color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 6px;white-space:nowrap}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slot.sm input{font-size:20px}
+.slot.sm span{font-size:12px;line-height:1.25}
+.slot .good-v{color:var(--good);font:500 13px var(--f-num)}
+.th{display:grid;gap:8px}
+.th details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.th summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;font-size:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px}
+.th summary::-webkit-details-marker{display:none}
+.th summary::after{content:"+";font:500 18px var(--f-num);color:var(--muted)}
+.th details[open] summary::after{content:"−"}
+.th summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.th .tb{padding:0 16px 16px;font-size:15.5px;line-height:1.5;display:grid;gap:10px}
+.th .tb p,.th .tb ul,.th .tb ol{margin:0}
+.th .tb ul,.th .tb ol{padding-left:20px;display:grid;gap:4px}
+.tw{overflow-x:auto;border:1px solid var(--soft);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:14px}
+.tw th,.tw td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--soft);vertical-align:top}
+.tw th{font-size:12px;color:var(--muted);font-weight:600;background:var(--bg)}
+.tw tr:last-child td{border-bottom:0}
+.tw td.nw,.tw td.mono{white-space:nowrap}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:22px;text-align:center;color:var(--muted);font-size:15px}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header class="top" id="top"></header>
+  <main class="view" id="view"></main>
+</div>
+<div class="bottom" id="bottom" hidden><div class="in" id="bottomIn"></div></div>
+
+<script>
+/* ===================== QUESTION BANK ===================== */
+const TOPICS = {
+  kr:    'Теория к КР (по списку)',
+  osn:   'Учёт в системе управления',
+  sred:  'Актив и пассив',
+  metod: 'Метод учёта',
+  bal:   'Бухгалтерский баланс',
+  vliy:  'Операции и баланс',
+  scheta:'Счета и сальдо',
+  s27:   '27 счетов',
+  prov:  'Проводки',
+  zad:   'Мини-задачи',
+  otch:  'Отчётность и регулирование',
+  razd:  'Разделы баланса',
+  vvod:  'Проводки вручную',
+  acc:   'Счета: номер и название'
+};
+// [question, options, correctIndex, explanation, fixedOrder?]
+const RAW = {
+osn: [
+ ['Что обеспечивает бухгалтерский учёт в системе управления?',['Сбор, систематизацию и передачу информации о фактах хозяйственной жизни','Только составление налоговых деклараций','Планирование объёма продаж','Подбор и оценку персонала'],0,'Лекция 1: учёт обеспечивает сбор, систематизацию и передачу информации о фактах хозяйственной жизни и строит на их основе модель финансового состояния.'],
+ ['Какая из функций НЕ относится к функциям учёта по лекции?',['Установление цен на продукцию','Представление информации пользователям','Контроль за наличием имущества и обязательств','Активное воздействие на управленческие решения'],0,'По лекции функций три: информировать пользователей, контролировать, влиять на решения. Цены учёт не устанавливает.'],
+ ['Каким должен быть учёт, чтобы влиять на управленческие решения?',['Аналитичным и оперативным','Бесплатным и простым','Закрытым от руководства','Только годовым'],0,'Лекция 1: для активного воздействия на решения учёт должен быть аналитичен и оперативен.'],
+ ['Кто относится к внешним пользователям с ПРЯМЫМ финансовым интересом?',['Кредиторы','Совет директоров','Пресса','Работники'],0,'Прямой интерес: инвесторы, кредиторы, покупатели, поставщики. Пресса — косвенный интерес, совет директоров и работники — внутренние.'],
+ ['Кто относится к внешним пользователям с КОСВЕННЫМ интересом?',['Государственные органы','Инвесторы','Поставщики','Высшие руководители'],0,'Косвенный интерес: госорганы, консультанты, пресса, общество.'],
+ ['Кто из перечисленных — внутренний пользователь отчётности?',['Работники','Покупатели','Консультанты','Общество'],0,'Внутренние: собственники, партнёры, совет директоров, руководители всех уровней, работники.'],
+ ['Что является предметом бухгалтерского учёта по лекции?',['Финансово-хозяйственная деятельность экономического субъекта с обособленным кругооборотом средств','Налоговые обязательства организации','Бюджет на следующий год','Денежные потоки банка'],0,'Лекция 1, дословно. На семинаре 2 давали другую формулировку: информационное обеспечение управленческих решений.'],
+ ['Что НЕ входит в объекты бухучёта по лекции?',['Рыночная доля компании','Хозяйственные средства','Хозяйственные процессы','Хозяйственные результаты'],0,'Объекты по лекции: хозяйственные средства, процессы и результаты.'],
+ ['Какой вид учёта ведётся только для внутренних пользователей?',['Управленческий','Финансовый','Налоговый','Статистический'],0,'Семинар 1: управленческий учёт формирует данные только для внутренних пользователей.'],
+ ['На чём строится налоговый учёт?',['На Налоговом кодексе РФ','На МСФО','На ФСБУ 4/2023','На уставе организации'],0,'Семинар 1: основа налогового учёта — Налоговый кодекс, по нему компания разрабатывает налоговую политику.'],
+ ['Какой учётный измеритель универсальный?',['Денежный','Натуральный','Трудовой','Временной'],0,'Только денежный позволяет сложить разнородное имущество и посчитать себестоимость, выручку, прибыль.'],
+ ['Человеко-часы и нормо-часы — это измерители…',['трудовые','натуральные','денежные','стоимостные'],0,'Трудовые измерители считают рабочее время и нужны для расчёта зарплаты.'],
+ ['Какую функцию бухучёта на семинаре назвали базовой?',['Учётную','Информационную','Плановую','Аналитическую'],0,'Учётная функция — базовая: фиксация фактов по мере их совершения. Информационная — важнейшая.'],
+ ['Какие виды контроля выделяют в контрольной функции?',['Предварительный, текущий, последующий','Внешний, внутренний, смешанный','Годовой, квартальный, месячный','Налоговый, аудиторский, банковский'],0,'Семинар 1: контроль бывает предварительный, текущий и последующий.'],
+ ['Как обеспечивается сохранность имущества?',['Непрерывным учётом, инвентаризацией и материальной ответственностью','Страхованием всех активов','Кредитами банка','Рекламой'],0,'Семинар 1: непрерывный учёт, систематическая инвентаризация и закрепление ценностей за материально ответственными лицами.']
+],
+sred: [
+ ['Что из этого — внеоборотный актив?',['Нематериальные активы','Материалы','Готовая продукция','Касса'],0,'Внеоборотные: ОС, инвестиционная недвижимость, право пользования активом, НМА, капвложения, долгосрочные финвложения.'],
+ ['Что из этого — оборотный актив?',['Дебиторская задолженность','Основные средства','Капитальные вложения','Инвестиционная недвижимость'],0,'Оборотные: запасы, деньги, дебиторская задолженность, краткосрочные финвложения.'],
+ ['Сколько признаков у основных средств по лекции?',['4','3','5','6'],0,'Материальная форма; использование в обычной деятельности; срок больше 12 месяцев; способность приносить выгоды.'],
+ ['Какой признак есть у НМА, но не назван среди признаков ОС?',['Объект можно выделить (идентифицировать) из других активов','Срок использования больше 12 месяцев','Способность приносить экономические выгоды','Использование в обычной деятельности'],0,'У НМА пять признаков: нет материальной формы, три общих с ОС и идентифицируемость.'],
+ ['Чем НМА принципиально отличаются от ОС?',['У них нет материально-вещественной формы','Используются меньше 12 месяцев','Не приносят экономических выгод','Не используются в деятельности'],0,'Патент или товарный знак нельзя потрогать — это и отличает НМА.'],
+ ['Станок, который будет работать 5 лет, — это…',['основное средство','материалы','товары','незавершённое производство'],0,'Материальная форма, срок больше 12 месяцев, используется в производстве: все признаки ОС.'],
+ ['Изделия, не прошедшие полный технологический цикл, — это…',['незавершённое производство','готовая продукция','товары','материалы'],0,'НЗП: не прошли полный цикл, не укомплектованы или не приняты по качеству.'],
+ ['Изделия, купленные для перепродажи, — это…',['товары','готовая продукция','материалы','незавершённое производство'],0,'Товары покупают, чтобы перепродать. ГП компания делает сама.'],
+ ['Прошли полный цикл, укомплектованы и приняты по качеству — это…',['готовая продукция','незавершённое производство','товары','материалы'],0,'Три признака готовой продукции из лекции 2.'],
+ ['Недвижимость, которую сдают в аренду или держат ради роста цены, — это…',['инвестиционная недвижимость','основные средства для управленческих нужд','капитальные вложения','товары'],0,'Лекция 2: инвестиционная недвижимость — для сдачи за плату или дохода от прироста стоимости.'],
+ ['Затраты на создание, улучшение и восстановление ОС и НМА — это…',['капитальные вложения','финансовые вложения','запасы','расходы на продажу'],0,'Капвложения учитываются на счёте 08 до ввода объекта в эксплуатацию.'],
+ ['Облигации куплены, чтобы получать доход 3 года. Куда их отнести?',['Долгосрочные финвложения, внеоборотные активы','Краткосрочные финвложения','Денежные средства','Дебиторская задолженность'],0,'Больше 12 месяцев с отчётной даты — долгосрочные.'],
+ ['Акции куплены, чтобы продать через 4 месяца. Это…',['краткосрочные финансовые вложения','долгосрочные финансовые вложения','капитальные вложения','товары'],0,'До 12 месяцев — краткосрочные, оборотный актив.'],
+ ['Операционный цикл — это время между…',['покупкой актива и получением денег от продажи продукции','регистрацией и ликвидацией компании','началом и концом календарного года','начислением и выплатой зарплаты'],0,'Определение из лекции 2.'],
+ ['Покупатель заплатит за продукцию через 14 месяцев. Как классифицировать долг?',['Оборотный актив: он связан с операционным циклом','Внеоборотный актив, раз срок больше года','Долгосрочное обязательство','Капитал'],0,'ДЗ покупателей — оборотный актив независимо от срока погашения.'],
+ ['Совокупность вкладов собственников по номинальной стоимости — это…',['уставный капитал','добавочный капитал','резервный капитал','нераспределённая прибыль'],0,'Лекция 2, определение уставного капитала.'],
+ ['Суммы, полученные сверх номинала размещённых акций, — это…',['эмиссионный доход','резервный капитал','уставный капитал','выручка'],0,'Эмиссионный доход входит в добавочный капитал.'],
+ ['Часть прибыли, зарезервированная на покрытие будущих убытков, — это…',['резервный капитал','добавочный капитал','уставный капитал','оценочные обязательства'],0,'Резервный капитал создаётся из нераспределённой прибыли по решению собственников.'],
+ ['Прирост стоимости ОС при переоценке до справедливой стоимости — это…',['переоценка внеоборотных активов, часть капитала','выручка','прочий доход','резервный капитал'],0,'Переоценка (дооценка) ВНА — отдельная статья капитала.'],
+ ['Как получается нераспределённая прибыль?',['Доходы − расходы − налог на прибыль − дивиденды','Выручка − дивиденды','Доходы + капитал − расходы','Прибыль − резервный − уставный капитал'],0,'Доходы − расходы = прибыль до налога; − налог = чистая прибыль; − дивиденды = нераспределённая прибыль.'],
+ ['Что относится к собственному капиталу?',['Нераспределённая прибыль','Кредит банка','Задолженность поставщикам','Задолженность по зарплате'],0,'Капитал: уставный, добавочный, резервный, нераспределённая прибыль. Остальное — обязательства.'],
+ ['Долг поставщику за товары с отсрочкой 15 месяцев. Это…',['краткосрочное обязательство: связано с операционным циклом','долгосрочное обязательство','капитал','оборотный актив'],0,'КЗ за товары, работы, услуги — краткосрочная независимо от срока.'],
+ ['Кредит банка, который погасят через 2 года после отчётной даты, — это…',['долгосрочные заёмные средства','краткосрочные заёмные средства','кредиторская задолженность','капитал'],0,'Срок погашения больше 12 месяцев с отчётной даты.'],
+ ['Доходы — это увеличение экономических выгод, которое…',['увеличивает капитал, кроме вкладов собственников','увеличивает обязательства','уменьшает капитал','связано только с вкладами учредителей'],0,'Лекция 2: вклады собственников доходом не являются.'],
+ ['Что НЕ является доходом?',['Вклад учредителя в уставный капитал','Выручка от продажи продукции','Полученный штраф','Дивиденды по акциям другой компании'],0,'Вклады собственников увеличивают капитал, но доходом не считаются.'],
+ ['Касса — это…',['наличные деньги в рублях и валюте','безналичные рубли в банке','безналичная валюта в банке','деньги в пути'],0,'Лекция 2. Безналичные рубли — расчётный счёт, безналичная валюта — валютный счёт.'],
+ ['Кто признаёт право пользования активом?',['Арендатор','Арендодатель','Банк','Поставщик'],0,'Арендатор признаёт предмет аренды как право пользования активом и одновременно обязательство по аренде.']
+],
+metod: [
+ ['Сколько элементов у метода бухучёта по лекции?',['7','5','4','9'],0,'Документация, инвентаризация, оценка, калькуляция, счета и двойная запись, баланс, отчётность.'],
+ ['Какой элемент метода относится к этапу СБОРА информации?',['Инвентаризация','Баланс','Отчётность','Счета и двойная запись'],0,'Сбор: документация, инвентаризация, оценка, калькуляция.'],
+ ['Какой элемент относится к этапу СИСТЕМАТИЗАЦИИ?',['Счета и двойная запись','Документация','Калькуляция','Оценка'],0,'Систематизация: счета и двойная запись, баланс.'],
+ ['Какой элемент относится к этапу ПЕРЕДАЧИ информации?',['Бухгалтерская отчётность','Инвентаризация','Оценка','Документация'],0,'Передача — отчётность.'],
+ ['Документация — это…',['сплошная непрерывная регистрация фактов в первичных документах','периодическая проверка наличия имущества','исчисление себестоимости','обобщение данных на отчётную дату'],0,'Лекция 3.'],
+ ['Что НЕ входит в обязательные реквизиты первичного документа по лекции?',['Печать организации','Наименование документа','Дата составления','Подписи и расшифровки подписей ответственных лиц'],0,'Шесть реквизитов: наименование, дата, организация, содержание операции, её оценка, должности и подписи. Печати в списке нет.'],
+ ['Инвентаризация — это…',['периодическая проверка фактического наличия и состояния активов и обязательств','регистрация операций в документах','расчёт себестоимости','составление баланса'],0,'Её цель — достоверность учёта и отчётности.'],
+ ['Кто утверждает случаи, сроки и результаты инвентаризации?',['Руководитель организации','Главный бухгалтер','Налоговая инспекция','Аудитор'],0,'Лекция 3.'],
+ ['В какой оценке объект принимают к учёту?',['Первоначальная стоимость (фактическая себестоимость)','Балансовая стоимость','Справедливая стоимость','Ликвидационная стоимость'],0,'Первоначальная — при признании, балансовая — потом.'],
+ ['Оценка после признания, за вычетом амортизации и обесценения, — это…',['балансовая стоимость','первоначальная стоимость','справедливая стоимость','номинальная стоимость'],0,'Лекция 3.'],
+ ['Каким документом регулируется справедливая стоимость?',['МСФО (IFRS) 13','ФСБУ 5/2019','ПБУ 1/2008','402-ФЗ'],0,'Лекция 3.'],
+ ['Калькуляция — это…',['исчисление затрат и себестоимости продукции','проверка наличия имущества','регистрация операций','составление отчётности'],0,'Калькуляция — вопрос учётной политики.'],
+ ['Какие два требования к оценке называли на семинаре 2?',['Реальность и единство','Быстрота и дешевизна','Секретность и полнота','Точность и ежегодность'],0,'Реальность: соответствие фактической величине. Единство: одинаковая оценка одних и тех же объектов.'],
+ ['В каком порядке движется информация?',['Операция → первичные документы → счета → баланс → отчётность','Баланс → счета → документы → операция','Счета → документы → отчётность → баланс','Отчётность → баланс → счета → документы'],0,'Схема из лекции 5.'],
+ ['Счёт — это способ какой регистрации информации?',['Вторичной','Первичной','Окончательной','Налоговой'],0,'Первичная регистрация — в документах, вторичная — на счетах.']
+],
+bal: [
+ ['На какой момент составляется баланс?',['На отчётную дату','За отчётный период','За три года','На дату регистрации компании'],0,'Баланс — снимок на дату. Отчёт о финансовых результатах — за период.'],
+ ['Формат баланса по МСФО:',['Актив = Капитал + Обязательства','Актив = Капитал − Обязательства','Капитал = Актив + Обязательства','Актив = Обязательства'],0,'Лекция 4. В России: Актив = Пассив.'],
+ ['Что такое чистые активы?',['Актив − Обязательства (то есть капитал)','Актив + Капитал','Капитал − Актив','Только оборотные активы'],0,'Лекция 4: Актив − Обязательства = Капитал (чистые активы).'],
+ ['Что такое валюта баланса?',['Итог актива, равный итогу пассива','Валюта, в которой ведётся учёт','Сумма денег на счетах','Итог раздела III'],0,'Валюта баланса — его итог.'],
+ ['Сколько разделов в бухгалтерском балансе?',['5','2','3','4'],0,'I и II — актив, III, IV, V — пассив.'],
+ ['Как называется III раздел баланса?',['Капитал','Оборотные активы','Долгосрочные обязательства','Краткосрочные обязательства'],0,'В старых формах — «Капитал и резервы».'],
+ ['Как называется IV раздел баланса?',['Долгосрочные обязательства','Краткосрочные обязательства','Капитал','Внеоборотные активы'],0,'IV — больше 12 месяцев, V — до 12 месяцев.'],
+ ['В каком разделе показываются запасы?',['II','I','III','V'],0,'Запасы — оборотный актив.'],
+ ['Где в балансе НДС по приобретённым ценностям?',['II раздел, отдельная строка','I раздел','V раздел','В балансе не показывается'],0,'Отдельная строка оборотных активов.'],
+ ['Как в балансе показывается накопленная амортизация ОС?',['Уменьшает строку «Основные средства»','Отдельной строкой в пассиве','В III разделе','В V разделе'],0,'Нетто-оценка: ОС = первоначальная стоимость − амортизация.'],
+ ['Нетто-оценка дебиторской задолженности — это…',['фактическая величина − резерв по сомнительным долгам','фактическая величина + проценты','номинал − амортизация','себестоимость − обесценение'],0,'Лекция 4, таблица нетто-оценки.'],
+ ['Нетто-оценка запасов — это…',['фактическая себестоимость − убыток от обесценения','первоначальная стоимость − амортизация','фактическая величина − резерв по долгам','рыночная цена + НДС'],0,'Лекция 4.'],
+ ['Где в балансе авансы, полученные от покупателей?',['V раздел, кредиторская задолженность','II раздел, дебиторская задолженность','III раздел','Это доход, в баланс не попадает'],0,'Получили деньги, но товар не отдали: мы должны покупателю.'],
+ ['Где в балансе задолженность по заработной плате?',['V раздел','IV раздел','III раздел','II раздел'],0,'Обязательство перед работниками, связано с операционным циклом.'],
+ ['Где в балансе резервный капитал?',['III раздел','V раздел','II раздел','IV раздел'],0,'Часть собственного капитала.'],
+ ['Кредит брали на 3 года, до погашения осталось 8 месяцев. Раздел?',['V','IV','III','II'],0,'Срок считается от отчётной даты: меньше 12 месяцев — краткосрочный.'],
+ ['Какая статья относится к I разделу?',['Инвестиционная недвижимость','Запасы','Дебиторская задолженность','Денежные средства'],0,'Остальные — оборотные активы.'],
+ ['Какая статья НЕ входит в V раздел?',['Отложенные налоговые обязательства','Заёмные средства','Кредиторская задолженность','Оценочные обязательства'],0,'Отложенные налоговые обязательства — IV раздел.'],
+ ['Как показываются собственные акции, выкупленные у акционеров?',['В III разделе в круглых скобках, уменьшают капитал','В активе как финвложения','В V разделе','Не показываются'],0,'Вычитаемые показатели пишут в скобках.'],
+ ['Почему актив всегда равен пассиву?',['Это одни и те же средства с двух сторон: что есть и откуда взялось','Так требует налоговая','Это совпадение','Из-за амортизации'],0,'Каждый рубль актива откуда-то пришёл.'],
+ ['В каком порядке располагают статьи внутри раздела?',['По ликвидности','По алфавиту','По сумме','По дате'],0,'Семинар 2: по росту или снижению ликвидности.'],
+ ['Как показывается непокрытый убыток?',['В III разделе в круглых скобках','В активе','В V разделе','Не показывается'],0,'Убыток уменьшает капитал.'],
+ ['Где в балансе денежные средства?',['II раздел','I раздел','III раздел','V раздел'],0,'Самый ликвидный оборотный актив.']
+],
+vliy: [
+ ['Поступили материалы от поставщика, счёт не оплачен.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],0,'Материалы (актив) +, долг поставщику (пассив) +. Валюта баланса растёт.',1],
+ ['Наличные деньги внесены на расчётный счёт.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],2,'Касса −, расчётный счёт +. Обе статьи в активе.',1],
+ ['За счёт кредита банка оплачен счёт поставщика.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],3,'Долг поставщику −, заёмные средства +. Обе статьи в пассиве.',1],
+ ['С расчётного счёта погашен кредит банка.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],1,'Деньги −, заёмные средства −. Валюта баланса уменьшается.',1],
+ ['Получен займ банка на расчётный счёт.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],0,'Деньги +, заёмные средства +.',1],
+ ['Материалы переданы в основное производство.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],2,'Материалы −, незавершённое производство +. Обе статьи — запасы.',1],
+ ['Начислена зарплата рабочим основного производства.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],0,'НЗП (актив) +, долг перед работниками (пассив) +.',1],
+ ['Выплачена зарплата с расчётного счёта.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],1,'Деньги −, долг перед работниками −.',1],
+ ['Начислены дивиденды учредителям.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],3,'Нераспределённая прибыль −, долг перед учредителями +.',1],
+ ['Выплачены дивиденды с расчётного счёта.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],1,'Деньги −, долг перед учредителями −.',1],
+ ['Уставный капитал увеличен за счёт нераспределённой прибыли.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],3,'Обе статьи — капитал.',1],
+ ['Уставный капитал увеличен за счёт добавочного.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],3,'Внутри капитала.',1],
+ ['Создан резервный капитал за счёт прибыли.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],3,'Нераспределённая прибыль −, резервный капитал +.',1],
+ ['Покупатель погасил свой долг на расчётный счёт.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],2,'Дебиторская задолженность −, деньги +.',1],
+ ['Получена предоплата от покупателя.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],0,'Деньги +, долг перед покупателем (аванс полученный) +.',1],
+ ['Оборудование введено в эксплуатацию.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],2,'Капвложения −, основные средства +.',1],
+ ['Перечислены налоги в бюджет.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],1,'Деньги −, долг перед бюджетом −.',1],
+ ['Начислены страховые взносы с зарплаты рабочих цеха.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],0,'НЗП +, долг по взносам +.',1],
+ ['Выпущена из производства готовая продукция.',['Тип 1: А+ и П+','Тип 2: А− и П−','Тип 3: внутри актива','Тип 4: внутри пассива'],2,'НЗП −, готовая продукция +.',1],
+ ['При каких типах меняется валюта баланса?',['1 и 2','3 и 4','Только 1','Во всех четырёх'],0,'В типах 3 и 4 одна статья растёт, другая уменьшается на ту же сумму внутри одной стороны.'],
+ ['Может ли хозяйственная операция нарушить равенство Актив = Пассив?',['Нет, никогда','Да, при убытке','Да, при получении кредита','Да, в конце года'],0,'Любая операция меняет две статьи на одну сумму.'],
+ ['Какая формула описывает тип 4?',['А = П + изм − изм','А + изм = П + изм','А − изм = П − изм','А + изм − изм = П'],0,'Изменения только внутри пассива.'],
+ ['Пример лекции 4: валюта баланса после всех четырёх операций?',['28 000','20 000','48 000','8 000'],0,'Материалы 28 000 = уставный капитал 20 000 + заёмные средства 8 000.']
+],
+scheta: [
+ ['Дебет — это…',['левая сторона счёта','приход денег','уменьшение имущества','долг перед кем-то'],0,'Дебет и кредит — просто левая и правая стороны. Смысл зависит от вида счёта.'],
+ ['На активном счёте увеличение записывается по…',['дебету','кредиту','обеим сторонам','не записывается'],0,'Активный: + по дебету, − по кредиту.'],
+ ['На пассивном счёте увеличение записывается по…',['кредиту','дебету','обеим сторонам','не записывается'],0,'Пассивный: + по кредиту, − по дебету.'],
+ ['Конечное сальдо активного счёта:',['Сн + ОбДт − ОбКт','Сн + ОбКт − ОбДт','Сн − ОбДт − ОбКт','ОбДт − ОбКт'],0,'Сальдо дебетовое.'],
+ ['Конечное сальдо пассивного счёта:',['Сн + ОбКт − ОбДт','Сн + ОбДт − ОбКт','Сн − ОбКт − ОбДт','ОбКт + ОбДт'],0,'Сальдо кредитовое.'],
+ ['Развёрнутое сальдо — это когда на отчётную дату у счёта…',['одновременно И дебетовое, И кредитовое сальдо','только дебетовое сальдо','ИЛИ дебетовое, ИЛИ кредитовое','нет сальдо'],0,'Так бывает у счетов расчётов: одни контрагенты должны нам, другим должны мы.'],
+ ['Свёрнутое сальдо — это когда у счёта…',['ИЛИ дебетовое, ИЛИ кредитовое сальдо','одновременно И дебетовое, И кредитовое','нет сальдо','только кредитовое'],0,'Примеры: 84 и 99.'],
+ ['Какие счета — активно-пассивные с развёрнутым сальдо?',['60, 62, 76','84, 99','25, 26','02, 05'],0,'Счета расчётов.'],
+ ['Какие счета — активно-пассивные со свёрнутым сальдо?',['84, 99','60, 62','25, 26','01, 04'],0,'Счета финансовых результатов: прибыль или убыток.'],
+ ['Что означает дебетовое сальдо счёта 99?',['Убыток','Прибыль','Долг покупателей','Выручку'],0,'Кредитовое сальдо — прибыль, дебетовое — убыток.'],
+ ['Что такое контрактивные счета?',['Пассивные по строению счета, которые уменьшают активный счёт в балансе','Активные счета для учёта затрат','Счета без сальдо','Забалансовые счета'],0,'02 уменьшает 01, 05 уменьшает 04 (в лекции ещё 14, 59, 63).'],
+ ['Какие счета называют собирательно-распределительными?',['25, 26','90, 91','02, 05','60, 62'],0,'Собирают косвенные затраты и к концу месяца закрываются.'],
+ ['Что верно про счета 90 и 91?',['Синтетический счёт не имеет сальдо на отчётную дату','Всегда дебетовое сальдо','Входят в III раздел баланса','Это пассивные счета'],0,'За месяц копят доходы и расходы, разницу отдают в 99.'],
+ ['Как ведутся забалансовые счета?',['Без двойной записи','С двойной записью','Только по кредиту','В пассиве баланса'],0,'Их остатки в баланс не входят, показываются за балансом.'],
+ ['Что учитывают на счёте 001?',['Арендованные основные средства','Наличные деньги','Товары на комиссии','Бланки строгой отчётности'],0,'Семинар 2: 004 — товары на комиссии, 006 — БСО.'],
+ ['Синтетический счёт ведётся…',['только в денежном измерителе','только в натуральном','в трудовом','в иностранной валюте'],0,'Он нужен для баланса и отчётности.'],
+ ['Аналитический счёт ведётся…',['в денежных и натуральных измерителях','только в деньгах','только в трудовых','только в натуральных'],0,'Семинар 3.'],
+ ['Субсчёт — это…',['промежуточная группировка между синтетическим и аналитическими счетами','другое название синтетического счёта','забалансовый счёт','счёт в банке'],0,'Несколько аналитических составляют субсчёт, несколько субсчетов — синтетический счёт.'],
+ ['Как аналитические счета корреспондируют с другими счетами?',['Только через свой синтетический счёт','Напрямую с любыми счетами','Никак','Через баланс'],0,'Семинар 3, вывод.'],
+ ['Сумма оборотов по аналитическим счетам равна…',['обороту синтетического счёта','нулю','валюте баланса','сальдо кассы'],0,'И обороты, и сальдо совпадают.'],
+ ['Двойная запись — это…',['запись операции по дебету одного и кредиту другого счёта на одну сумму','запись операции дважды на одном счёте','запись в баланс и в отчёт','две подписи на документе'],0,'Лекция 5.'],
+ ['Проводка с одним счётом по дебету и одним по кредиту называется…',['простой','сложной','двусторонней сложной','обратной'],0,'Пример: Дт 50 Кт 51.'],
+ ['Сложная проводка — это…',['больше одного счёта по дебету и/или кредиту','проводка на большую сумму','проводка за несколько месяцев','проводка с ошибкой'],0,'Пример: Дт 10, Дт 19 — Кт 60.'],
+ ['Счета 60–79 по Плану счетов — это…',['расчёты','капитал','денежные средства','финансовые результаты'],0,'Характеристика: активно-пассивные.'],
+ ['Счета 80–89 — это…',['капитал','расчёты','затраты','товары'],0,'Пассивные.'],
+ ['Счета 50–59 — это…',['денежные средства','расчёты','капитал','затраты'],0,'Активные.'],
+ ['Счета 20–29 — это…',['затраты на производство','производственные запасы','внеоборотные активы','финансовые результаты'],0,'Активные.'],
+ ['Корреспондирующие счета — это…',['счета, связанные одной проводкой','счета одного раздела','счета с одинаковым сальдо','забалансовые счета'],0,'Лекция 5.'],
+ ['В чём контрольное значение двойной записи?',['Если суммы по дебету и кредиту не совпали, есть ошибка','Она ускоряет учёт','Она заменяет инвентаризацию','Её проверяет налоговая'],0,'Семинар 2.'],
+ ['В оборотно-сальдовой ведомости итог оборотов по дебету…',['равен итогу оборотов по кредиту','всегда больше','всегда меньше','не связан с кредитом'],0,'Каждая проводка даёт одинаковую сумму по Дт и Кт.']
+],
+prov: [
+ ['Поступили материалы от поставщика.',['Дт 10 Кт 60','Дт 60 Кт 10','Дт 10 Кт 51','Дт 20 Кт 10'],0,'Материалы (актив) растут по дебету, долг поставщику (пассив) — по кредиту.'],
+ ['Оплачены материалы поставщику с расчётного счёта.',['Дт 60 Кт 51','Дт 51 Кт 60','Дт 10 Кт 51','Дт 60 Кт 10'],0,'Долг уменьшается по дебету 60, деньги уходят по кредиту 51.'],
+ ['Материалы переданы в основное производство.',['Дт 20 Кт 10','Дт 10 Кт 20','Дт 43 Кт 10','Дт 10 Кт 43'],0,'Затраты производства растут, материалы уменьшаются.'],
+ ['Начислена зарплата рабочим основного производства.',['Дт 20 Кт 70','Дт 70 Кт 20','Дт 70 Кт 51','Дт 26 Кт 70'],0,'Прямые затраты — счёт 20.'],
+ ['Начислена зарплата управленческому персоналу.',['Дт 26 Кт 70','Дт 20 Кт 70','Дт 70 Кт 26','Дт 44 Кт 70'],0,'Управленческие расходы — счёт 26.'],
+ ['Начислены страховые взносы с зарплаты рабочих цеха.',['Дт 20 Кт 69','Дт 69 Кт 20','Дт 20 Кт 68','Дт 69 Кт 51'],0,'Взносы идут туда же, куда зарплата, в кредит 69.'],
+ ['Выплачена зарплата с расчётного счёта.',['Дт 70 Кт 51','Дт 51 Кт 70','Дт 20 Кт 51','Дт 70 Кт 20'],0,'Долг перед работниками уменьшается.'],
+ ['Выплачена зарплата из кассы.',['Дт 70 Кт 50','Дт 50 Кт 70','Дт 70 Кт 51','Дт 20 Кт 50'],0,'Деньги уходят из кассы.'],
+ ['Перечислены налоги в бюджет.',['Дт 68 Кт 51','Дт 51 Кт 68','Дт 68 Кт 90','Дт 90 Кт 68'],0,'Долг перед бюджетом уменьшается.'],
+ ['Уплачены страховые взносы.',['Дт 69 Кт 51','Дт 51 Кт 69','Дт 70 Кт 69','Дт 69 Кт 70'],0,'Долг по взносам уменьшается.'],
+ ['Начислена амортизация оборудования цеха.',['Дт 25 Кт 02','Дт 02 Кт 25','Дт 01 Кт 02','Дт 25 Кт 01'],0,'Косвенные производственные затраты — 25, износ копится по кредиту 02.'],
+ ['Начислена амортизация ОС общехозяйственного назначения.',['Дт 26 Кт 02','Дт 02 Кт 26','Дт 26 Кт 01','Дт 26 Кт 05'],0,'Управленческие расходы — 26.'],
+ ['Начислена амортизация товарного знака (управленческие расходы).',['Дт 26 Кт 05','Дт 26 Кт 02','Дт 05 Кт 26','Дт 04 Кт 05'],0,'Амортизация НМА — счёт 05.'],
+ ['Приобретено оборудование у поставщика (ещё не введено).',['Дт 08 Кт 60','Дт 01 Кт 60','Дт 60 Кт 08','Дт 08 Кт 51'],0,'Сначала затраты собирают на 08.'],
+ ['Оборудование введено в эксплуатацию.',['Дт 01 Кт 08','Дт 08 Кт 01','Дт 01 Кт 60','Дт 02 Кт 08'],0,'Из капвложений в основные средства.'],
+ ['Товарный знак введён в эксплуатацию.',['Дт 04 Кт 08','Дт 08 Кт 04','Дт 01 Кт 08','Дт 04 Кт 60'],0,'НМА учитываются на 04.'],
+ ['Выпущена из производства готовая продукция.',['Дт 43 Кт 20','Дт 20 Кт 43','Дт 90 Кт 20','Дт 43 Кт 90'],0,'Себестоимость переходит из 20 в 43.'],
+ ['Отражена выручка от продажи продукции.',['Дт 62 Кт 90','Дт 90 Кт 62','Дт 51 Кт 90','Дт 62 Кт 43'],0,'Покупатель должен нам (Дт 62), выручка по кредиту 90.'],
+ ['Списана себестоимость проданной продукции.',['Дт 90 Кт 43','Дт 43 Кт 90','Дт 90 Кт 20','Дт 20 Кт 43'],0,'Расход по дебету 90.'],
+ ['Поступили деньги от покупателя за отгруженную продукцию.',['Дт 51 Кт 62','Дт 62 Кт 51','Дт 51 Кт 90','Дт 90 Кт 51'],0,'Долг покупателя закрывается.'],
+ ['Получена предоплата от покупателя.',['Дт 51 Кт 62','Дт 51 Кт 90','Дт 62 Кт 51','Дт 51 Кт 60'],0,'Аванс полученный — кредит 62, это не выручка.'],
+ ['Перечислен аванс поставщику.',['Дт 60 Кт 51','Дт 51 Кт 60','Дт 10 Кт 51','Дт 60 Кт 10'],0,'На 60 появляется дебетовое сальдо: поставщик должен нам.'],
+ ['НДС по полученным материалам принят к вычету.',['Дт 68 Кт 19','Дт 19 Кт 68','Дт 19 Кт 60','Дт 90 Кт 19'],0,'Схема НДС из лекции 6.'],
+ ['Начислен НДС с выручки.',['Дт 90 Кт 68','Дт 68 Кт 90','Дт 62 Кт 68','Дт 68 Кт 51'],0,'НДС не доход: его вычитают из 90 и показывают как долг бюджету.'],
+ ['Поступили материалы на 240 000, в т. ч. НДС 40 000. Счёт не оплачен.',['Дт 10 200 000, Дт 19 40 000 — Кт 60 240 000','Дт 10 240 000 — Кт 60 240 000','Дт 10 200 000 — Кт 60 200 000, Кт 19 40 000','Дт 60 240 000 — Кт 10 200 000, Кт 19 40 000'],0,'Сложная проводка из лекции 5.'],
+ ['В конце месяца списаны общепроизводственные расходы.',['Дт 20 Кт 25','Дт 25 Кт 20','Дт 90 Кт 25','Дт 26 Кт 25'],0,'Косвенные производственные затраты включаются в себестоимость.'],
+ ['В конце месяца списаны общехозяйственные расходы.',['Дт 90 Кт 26','Дт 26 Кт 90','Дт 99 Кт 26','Дт 84 Кт 26'],0,'По лекции 6 — как условно-постоянные в 90.'],
+ ['В конце месяца списаны расходы на продажу.',['Дт 90 Кт 44','Дт 44 Кт 90','Дт 99 Кт 44','Дт 44 Кт 20'],0,'Закрываются в продажи.'],
+ ['Начислены расходы на рекламу (расходы на продажу).',['Дт 44 Кт 60','Дт 60 Кт 44','Дт 44 Кт 51','Дт 20 Кт 60'],0,'Реклама — коммерческие расходы.'],
+ ['Начислена арендная плата за офис.',['Дт 26 Кт 60','Дт 60 Кт 26','Дт 20 Кт 60','Дт 26 Кт 51'],0,'Офис — общехозяйственные расходы.'],
+ ['По итогам месяца получена прибыль от продаж.',['Дт 90 Кт 99','Дт 99 Кт 90','Дт 90 Кт 84','Дт 84 Кт 90'],0,'Прибыль записывается по кредиту 99.'],
+ ['По итогам месяца получен убыток от продаж.',['Дт 99 Кт 90','Дт 90 Кт 99','Дт 84 Кт 90','Дт 99 Кт 84'],0,'Убыток — по дебету 99.'],
+ ['Начислен штраф к получению с контрагента.',['Дт 76 Кт 91','Дт 91 Кт 76','Дт 76 Кт 90','Дт 62 Кт 91'],0,'Прочий доход, расчёт через 76.'],
+ ['Начислен штраф к уплате контрагенту.',['Дт 91 Кт 76','Дт 76 Кт 91','Дт 90 Кт 76','Дт 91 Кт 51'],0,'Прочий расход.'],
+ ['Прочие доходы за месяц больше прочих расходов.',['Дт 91 Кт 99','Дт 99 Кт 91','Дт 91 Кт 84','Дт 84 Кт 91'],0,'Прибыль от прочей деятельности уходит в 99.'],
+ ['Реформация: годовая прибыль закрыта на нераспределённую прибыль.',['Дт 99 Кт 84','Дт 84 Кт 99','Дт 99 Кт 80','Дт 90 Кт 84'],0,'Убыток закрывают обратной проводкой: Дт 84 Кт 99.'],
+ ['Создан резервный капитал за счёт прибыли.',['Дт 84 Кт 82','Дт 82 Кт 84','Дт 99 Кт 82','Дт 83 Кт 82'],0,'Прибыль уменьшается, резервный капитал растёт.'],
+ ['Уставный капитал увеличен за счёт нераспределённой прибыли.',['Дт 84 Кт 80','Дт 80 Кт 84','Дт 83 Кт 80','Дт 99 Кт 80'],0,'Внутри капитала.'],
+ ['Уставный капитал увеличен за счёт добавочного.',['Дт 83 Кт 80','Дт 80 Кт 83','Дт 84 Кт 80','Дт 83 Кт 84'],0,'Внутри капитала.'],
+ ['Наличные деньги внесены на расчётный счёт.',['Дт 51 Кт 50','Дт 50 Кт 51','Дт 51 Кт 80','Дт 50 Кт 80'],0,'Расчётный счёт растёт, касса уменьшается.'],
+ ['С расчётного счёта сняли деньги в кассу.',['Дт 50 Кт 51','Дт 51 Кт 50','Дт 50 Кт 62','Дт 70 Кт 51'],0,'Простая проводка из лекции 5.'],
+ ['Получены на расчётный счёт ранее начисленные дивиденды по акциям.',['Дт 51 Кт 76','Дт 51 Кт 91','Дт 76 Кт 51','Дт 51 Кт 84'],0,'Доход уже признан при начислении (Дт 76 Кт 91), теперь закрываем долг.'],
+ ['Оплачены ранее начисленные коммунальные услуги.',['Дт 60 Кт 51','Дт 26 Кт 51','Дт 51 Кт 60','Дт 60 Кт 26'],0,'Начисление было Дт 26 Кт 60, теперь гасим долг.']
+],
+zad: [
+ ['Касса: Сн 100 000, получили 300 000, заплатили 50 000 и 200 000. Конечное сальдо?',['150 000','250 000','50 000','650 000'],0,'100 000 + 300 000 − 250 000 = 150 000 (пример лекции 5).'],
+ ['Счёт 70: Сн 40 000 Кт, начислено 150 000, выплачено 120 000. Конечное сальдо?',['70 000 Кт','10 000 Кт','230 000 Кт','70 000 Дт'],0,'Пассивный: 40 000 + 150 000 − 120 000 = 70 000 по кредиту.'],
+ ['Счёт 99: СнКт 50 000, ОбДт 80 000, ОбКт 10 000. Сальдо?',['20 000 Дт (убыток)','20 000 Кт (прибыль)','120 000 Дт','40 000 Кт'],0,'(0 − 50 000) + 80 000 − 10 000 = +20 000, значит дебет, убыток.'],
+ ['ОС по первоначальной стоимости 1 200 000, амортизация 300 000. Что в строке «Основные средства»?',['900 000','1 200 000','1 500 000','300 000'],0,'Нетто-оценка.'],
+ ['Материалы 250 000, товары 180 000, готовая продукция 150 000. Строка «Запасы»?',['580 000','430 000','400 000','330 000'],0,'Все три — запасы.'],
+ ['Поставщикам 250 000, авансы полученные 60 000, зарплата 100 000. Строка «Кредиторская задолженность»?',['410 000','250 000','350 000','310 000'],0,'Все три — кредиторская задолженность.'],
+ ['НМА 150 000, ОС нетто 900 000, долгосрочные финвложения 100 000. Итого I раздел?',['1 150 000','1 450 000','1 050 000','1 250 000'],0,'Задача 2 семинара 5.'],
+ ['Задача 2 семинара 5 (I = 1 150 000, II = 1 180 000). Валюта баланса?',['2 330 000','2 630 000','2 130 000','1 720 000'],0,'1 150 000 + 1 180 000. Пассив даёт ту же сумму: 1 720 000 + 610 000.'],
+ ['УК 700 000, ДК 150 000, РК 100 000, НП 1 210 000. Итого III раздел?',['2 160 000','1 910 000','2 060 000','2 260 000'],0,'Задача 3 семинара 5.'],
+ ['Займы на 1 год 150 000, поставщикам 200 000, налоги 80 000, авансы полученные 70 000, зарплата 120 000. Итого V?',['620 000','470 000','920 000','550 000'],0,'150 000 + 470 000.'],
+ ['Счёт 51: Сн 250 000, ОбДт 50 000, ОбКт 191 000. Конечное сальдо?',['109 000','391 000','9 000','141 000'],0,'Задача 1 семинара 5.'],
+ ['Счёт 60: Сн 30 000 Кт. Начислено поставщикам 150 000, оплачено 150 000. Конечное сальдо?',['30 000 Кт','0','30 000 Дт','330 000 Кт'],0,'Обороты равны, сальдо не изменилось.'],
+ ['Валюта баланса 500 000. Получен кредит 100 000 на расчётный счёт. Новая валюта?',['600 000','500 000','400 000','700 000'],0,'Тип 1: растёт.'],
+ ['Валюта баланса 500 000. Материалы на 50 000 переданы в производство. Новая валюта?',['500 000','450 000','550 000','400 000'],0,'Тип 3: не меняется.'],
+ ['Валюта баланса 500 000. С расчётного счёта погашен долг поставщику 80 000. Новая валюта?',['420 000','500 000','580 000','340 000'],0,'Тип 2: уменьшается.'],
+ ['Валюта баланса 500 000. Начислены дивиденды 30 000. Новая валюта?',['500 000','470 000','530 000','440 000'],0,'Тип 4: внутри пассива.'],
+ ['Аналитика по 60: «Альфа» Кт 50 000, «Бета» Дт 20 000. Что попадёт в баланс?',['ДЗ 20 000 и КЗ 50 000','КЗ 30 000','ДЗ 30 000','КЗ 70 000'],0,'Развёрнутое сальдо не сворачивают.'],
+ ['За месяц: выручка 120 000, себестоимость 70 000, НДС 20 000, счёт 26 — 15 000, счёт 44 — 5 000. Результат по 90?',['Прибыль 10 000: Дт 90 Кт 99','Прибыль 30 000','Убыток 10 000','Прибыль 50 000'],0,'120 − 70 − 20 − 15 − 5 = 10 тыс.'],
+ ['НЗП на начало 20 000, затраты за месяц 150 000, НЗП на конец 30 000. Себестоимость выпуска?',['140 000','160 000','200 000','120 000'],0,'20 000 + 150 000 − 30 000.'],
+ ['Лекция 4: касса → р/с 20 000; материалы в долг 28 000; поставщик оплачен кредитом. Валюта после трёх операций?',['48 000','20 000','28 000','76 000'],0,'20 000 + 28 000; третья операция — тип 4.']
+],
+otch: [
+ ['Какой стандарт регулирует бухгалтерскую отчётность с 2025 года?',['ФСБУ 4/2023','ПБУ 4/99','ФСБУ 5/2019','МСФО (IAS) 1'],0,'Приказ Минфина от 04.10.2023 № 157н.'],
+ ['Что НЕ входит в состав бухгалтерской отчётности?',['Налоговая декларация','Бухгалтерский баланс','Отчёт о финансовых результатах','Отчёт о движении денежных средств'],0,'Ещё входят отчёт об изменениях капитала и пояснения.'],
+ ['По каким стандартам составляется консолидированная отчётность?',['МСФО','ФСБУ','Налоговый кодекс','Устав'],0,'Индивидуальная — по ФСБУ.'],
+ ['Какой закон обязывает составлять консолидированную отчётность?',['208-ФЗ','402-ФЗ','НК РФ','ГК РФ'],0,'402-ФЗ — «О бухгалтерском учёте».'],
+ ['Отчётный год — это…',['с 1 января по 31 декабря','12 месяцев с даты регистрации','с 1 апреля по 31 марта','любой период по решению директора'],0,'Календарный год.'],
+ ['Организация зарегистрирована 15 ноября 2026 года. Когда закончится первый отчётный год?',['31 декабря 2027','31 декабря 2026','15 ноября 2027','31 марта 2027'],0,'Регистрация после 1 октября — до 31 декабря следующего года.'],
+ ['Отчётная дата — это…',['последний календарный день отчётного периода','день сдачи отчётности','первый день года','день подписания'],0,'Лекция 8.'],
+ ['Как в отчётности показывают вычитаемые показатели?',['В круглых скобках','Красным цветом','В квадратных скобках','Не показывают'],0,'Лекция 8.'],
+ ['Допускается ли зачёт между активами и пассивами?',['Нет, кроме разрешённых стандартами случаев','Да, всегда','Только для малого бизнеса','Только в промежуточной отчётности'],0,'Также нельзя сворачивать доходы и расходы.'],
+ ['В какой срок отчётность представляют в ГИРБО?',['В течение 3 месяцев после окончания года','В течение 1 месяца','В течение 6 месяцев','До 31 декабря того же года'],0,'bo.nalog.ru.'],
+ ['Кто утверждает годовую отчётность ООО?',['Годовое собрание участников','Главный бухгалтер','Налоговая инспекция','Аудитор'],0,'У АО — годовое собрание акционеров.'],
+ ['Когда отчётность считается составленной?',['С момента подписания руководителем','После сдачи в ГИРБО','После утверждения собранием','После аудита'],0,'Лекция 8.'],
+ ['Что не допускается при регистрации объектов в регистрах учёта?',['Пропуски, изъятия, мнимые и притворные объекты','Исправления с подписью','Электронные регистры','Регистрация в рублях'],0,'Лекция 8.'],
+ ['Сопоставимость: каждый показатель приводится минимум за…',['2 периода','1 период','3 периода','5 периодов'],0,'Лекция 8.'],
+ ['Какие документы регулирования применяются добровольно?',['Рекомендации в области бухучёта','Федеральные стандарты','Отраслевые стандарты','Нормативные акты Банка России'],0,'Ещё добровольны документы, обобщающие практику.'],
+ ['Кто утверждает федеральные стандарты бухучёта?',['Минфин России','Банк России','Госдума','ФНС'],0,'Разрабатывают субъекты негосударственного регулирования, экспертизу делает Совет по стандартам.'],
+ ['Кто проводит экспертизу проектов ФСБУ?',['Совет по стандартам бухгалтерского учёта','Счётная палата','ФНС','Аудиторская палата'],0,'Лекция 7.'],
+ ['Чем оформляется учётная политика?',['Стандартами экономического субъекта','Налоговым кодексом','Уставом','Приказом ЦБ'],0,'Лекция 7.'],
+ ['ФСБУ 6/2020 — это стандарт про…',['основные средства','запасы','аренду','НМА'],0,'5/2019 — запасы, 25/2018 — аренда, 14/2022 — НМА.'],
+ ['ФСБУ 5/2019 — это стандарт про…',['запасы','основные средства','инвентаризацию','отчётность'],0,'Лекция 7.'],
+ ['ФСБУ 28/2023 — это стандарт про…',['инвентаризацию','капитальные вложения','документооборот','НМА'],0,'26/2020 — капвложения, 27/2021 — документы.'],
+ ['С отчётности за какой год применяется ФСБУ 9/2025 «Доходы»?',['2027','2025','2026','2030'],0,'Он заменит ПБУ 9/99. ФСБУ 10/2025 «Расходы» — тоже с 2027 года.'],
+ ['Что НЕ является доходом по ФСБУ 9/2025?',['Полученный аванс','Выручка от продажи','Штраф к получению','Проценты по облигациям'],0,'Ещё не доходы: НДС, задаток, залог, возврат выданного займа.'],
+ ['Что НЕ является расходом по ФСБУ 10/2025?',['Покупка материалов (приобретение запасов)','Амортизация','Зарплата управленцев','Аренда офиса'],0,'Ещё не расходы: капвложения, финвложения, авансы, погашение кредита.'],
+ ['Какое условие нужно для признания выручки?',['Контроль над продукцией перешёл к покупателю','Деньги получены полностью','Прошло 12 месяцев','Утверждён устав'],0,'Всего пять условий, нужны все одновременно.'],
+ ['Индивидуальная бухгалтерская отчётность обязательна для…',['всех юридических лиц','только АО','только банков','только крупных компаний'],0,'Лекция 8.'],
+ ['С какого показателя начинается отчёт о финансовых результатах?',['Выручка','Чистая прибыль','Себестоимость продаж','Налог на прибыль'],0,'Выручка → себестоимость → валовая прибыль → … → чистая прибыль.']
+]};
+
+// 27 accounts: [num, name, kind 0А 1П 2АП, bal idx or -1, note]
+const ACC = [
+ ['01','Основные средства',0,0,'Сальдо дебетовое, в балансе за вычетом 02.'],
+ ['04','Нематериальные активы',0,0,'В балансе за вычетом 05.'],
+ ['08','Вложения во внеоборотные активы',0,0,'Капвложения до ввода ОС и НМА.'],
+ ['10','Материалы',0,1,'Запасы.'],
+ ['20','Основное производство',0,1,'Сальдо — НЗП, входит в запасы.'],
+ ['25','Общепроизводственные расходы',0,5,'Закрывается в 20 в конце месяца.'],
+ ['26','Общехозяйственные расходы',0,5,'Закрывается в 90 в конце месяца.'],
+ ['43','Готовая продукция',0,1,'Запасы.'],
+ ['44','Расходы на продажу',0,5,'Закрывается в 90.'],
+ ['50','Касса',0,1,'Денежные средства.'],
+ ['51','Расчётные счета',0,1,'Денежные средства.'],
+ ['02','Амортизация основных средств',1,4,'По лекции контрактивный: уменьшает 01.'],
+ ['05','Амортизация нематериальных активов',1,4,'По лекции контрактивный: уменьшает 04.'],
+ ['68','Расчёты по налогам и сборам',1,3,'Долг перед бюджетом.'],
+ ['69','Расчёты по социальному страхованию и обеспечению',1,3,'Долг по страховым взносам.'],
+ ['70','Расчёты с персоналом по оплате труда',1,3,'Долг по зарплате.'],
+ ['80','Уставный капитал',1,2,''],
+ ['82','Резервный капитал',1,2,''],
+ ['83','Добавочный капитал',1,2,''],
+ ['19','НДС по приобретённым ценностям',2,1,'По классификации семинариста — А-П, в лекции — активный.'],
+ ['60','Расчёты с поставщиками и подрядчиками',2,-1,'Развёрнутое сальдо: Кт — наш долг, Дт — авансы выданные.'],
+ ['62','Расчёты с покупателями и заказчиками',2,-1,'Развёрнутое сальдо: Дт — долг покупателя, Кт — авансы полученные.'],
+ ['76','Расчёты с разными дебиторами и кредиторами',2,-1,'Развёрнутое сальдо.'],
+ ['84','Нераспределённая прибыль (непокрытый убыток)',2,2,'Свёрнутое сальдо: Кт — прибыль, Дт — убыток.'],
+ ['90','Продажи',2,5,'Синтетический счёт сальдо не имеет.'],
+ ['91','Прочие доходы и расходы',2,5,'Синтетический счёт сальдо не имеет.'],
+ ['99','Прибыли и убытки',2,-1,'Свёрнутое сальдо: Кт — прибыль, Дт — убыток.']
+];
+const KIND_OPTS = ['Активный','Пассивный','Активно-пассивный'];
+const BAL_OPTS = ['I · Внеоборотные активы','II · Оборотные активы','III · Капитал','V · Краткосрочные обязательства','Вычитается из статьи актива','В баланс не попадает'];
+
+const BANK = []; const BYID = {};
+function add(q){ BANK.push(q); BYID[q.id]=q; }
+Object.keys(RAW).forEach(t => RAW[t].forEach((r,i) => add({id:t+'-'+i, t, q:r[0], o:r[1], a:r[2], e:r[3], f:!!r[4]})));
+ACC.forEach(([n,name,k,b,note]) => {
+  add({id:'k-'+n, t:'s27', q:'Счёт '+n+' «'+name+'» — какой он по классификации семинариста?', o:KIND_OPTS, a:k, e:note||KIND_OPTS[k]+'.', f:true});
+  if(b>=0) add({id:'b-'+n, t:'s27', q:'Где в балансе сальдо счёта '+n+' «'+name+'»?', o:BAL_OPTS, a:b, e:note||'', f:true});
+});
+
+/* ===== sort-into-sections pool ===== */
+const SEC5 = ['I · Внеоборотные активы','II · Оборотные активы','III · Капитал','IV · Долгосрочные обязательства','V · Краткосрочные обязательства'];
+const SORT_RAW = [
+ ['Здание офиса',0,'Основное средство: служит больше года.'],
+ ['Производственное оборудование',0,'Основное средство.'],
+ ['Грузовой автомобиль компании',0,'Основное средство.'],
+ ['Земельный участок под цехом',0,'Основное средство.'],
+ ['Патент на изобретение',0,'Нематериальный актив.'],
+ ['Товарный знак',0,'Нематериальный актив.'],
+ ['Исключительное право на программу',0,'Нематериальный актив.'],
+ ['Склад, который сдаём в аренду другой компании',0,'Инвестиционная недвижимость.'],
+ ['Оборудование куплено, но ещё не введено в эксплуатацию',0,'Капитальные вложения (счёт 08).'],
+ ['Облигации, купленные на 3 года',0,'Долгосрочные финансовые вложения: мы вложили деньги больше чем на год.'],
+ ['Заём, выданный другой компании на 2 года',0,'Долгосрочные финансовые вложения: деньги дали мы.'],
+ ['Право пользования арендованным офисом',0,'По лекции 2 — внеоборотный актив.'],
+ ['Сырьё на складе',1,'Запасы.'],
+ ['Топливо на складе',1,'Запасы (материалы).'],
+ ['Незавершённое производство',1,'Запасы.'],
+ ['Готовая продукция на складе',1,'Запасы.'],
+ ['Товары для перепродажи',1,'Запасы.'],
+ ['Деньги в кассе',1,'Денежные средства.'],
+ ['Деньги на расчётном счёте',1,'Денежные средства.'],
+ ['Деньги на валютном счёте',1,'Денежные средства.'],
+ ['Задолженность покупателей',1,'Дебиторская задолженность: должны нам.'],
+ ['Аванс, выданный поставщику',1,'Дебиторская задолженность: мы заплатили вперёд, нам должны товар.'],
+ ['НДС по приобретённым ценностям',1,'Отдельная строка оборотных активов.'],
+ ['Заём, выданный другой компании на 3 месяца',1,'Краткосрочные финансовые вложения.'],
+ ['Акции, купленные для продажи через 2 месяца',1,'Краткосрочные финансовые вложения.'],
+ ['Штраф, который контрагент должен нам заплатить',1,'Дебиторская задолженность.'],
+ ['Уставный капитал',2,'Собственный капитал.'],
+ ['Добавочный капитал',2,'Собственный капитал.'],
+ ['Резервный капитал',2,'Собственный капитал.'],
+ ['Нераспределённая прибыль',2,'Собственный капитал.'],
+ ['Эмиссионный доход',2,'Входит в добавочный капитал.'],
+ ['Дооценка основных средств',2,'Накопленная дооценка внеоборотных активов — статья капитала.'],
+ ['Непокрытый убыток',2,'Показывается в капитале в круглых скобках.'],
+ ['Кредит банка на 3 года',3,'Чужие деньги, вернуть больше чем через 12 месяцев.'],
+ ['Заём от другой компании на 5 лет',3,'Долгосрочные заёмные средства.'],
+ ['Отложенные налоговые обязательства',3,'Статья IV раздела по ФСБУ 4/2023.'],
+ ['Долгосрочное оценочное обязательство (срок больше года)',3,'Оценочные обязательства бывают в IV и в V разделе, здесь срок больше года.'],
+ ['Задолженность перед поставщиками',4,'Кредиторская задолженность.'],
+ ['Задолженность по заработной плате',4,'Кредиторская задолженность.'],
+ ['Задолженность по налогам',4,'Кредиторская задолженность.'],
+ ['Задолженность по страховым взносам',4,'Кредиторская задолженность.'],
+ ['Авансы, полученные от покупателей',4,'Кредиторская задолженность: деньги взяли, товар ещё должны. Это не доход.'],
+ ['Кредит банка на 6 месяцев',4,'Краткосрочные заёмные средства.'],
+ ['Кредит взят на 3 года, до погашения осталось 5 месяцев',4,'Срок считают от отчётной даты: меньше 12 месяцев.'],
+ ['Дивиденды, начисленные к выплате учредителям',4,'Наш долг перед учредителями.'],
+ ['Штраф, который мы должны заплатить контрагенту',4,'Кредиторская задолженность.'],
+ ['Долг поставщику за материалы с отсрочкой 14 месяцев',4,'Связан с операционным циклом, поэтому краткосрочный при любом сроке.']
+];
+SORT_RAW.forEach((r,i)=>add({id:'r-'+i, t:'razd', q:'В какой раздел баланса относится: «'+r[0]+'»?', item:r[0], o:SEC5, a:r[1], e:r[2], f:true, x:true}));
+const SORT_POOL = BANK.filter(q=>q.t==='razd');
+
+/* ===== typed journal entries ===== */
+const ENTRY_RAW = [
+ ['Поступили материалы от поставщика, счёт не оплачен','10','60','Материалы (актив) растут по дебету, долг поставщику (пассив) — по кредиту.'],
+ ['Оплачен счёт поставщика с расчётного счёта','60','51','Долг поставщику уменьшается по дебету 60, деньги уходят по кредиту 51.'],
+ ['Материалы отпущены в основное производство','20','10','Прямые затраты — счёт 20.'],
+ ['Материалы отпущены на общецеховые нужды','25','10','Косвенные производственные затраты — счёт 25.'],
+ ['Материалы отпущены на нужды управления (офис)','26','10','Управленческие расходы — счёт 26.'],
+ ['Начислена зарплата рабочим основного производства','20','70','Затраты растут, долг перед работниками растёт.'],
+ ['Начислена зарплата начальнику цеха','25','70','Общепроизводственные расходы.'],
+ ['Начислена зарплата директору и бухгалтерии','26','70','Общехозяйственные расходы.'],
+ ['Начислена зарплата работникам отдела продаж','44','70','Расходы на продажу.'],
+ ['Начислены страховые взносы с зарплаты рабочих основного производства','20','69','Взносы идут туда же, куда зарплата.'],
+ ['Начислены страховые взносы с зарплаты бухгалтерии','26','69','Туда же, куда зарплата бухгалтерии.'],
+ ['Выплачена зарплата из кассы','70','50','Долг перед работниками уменьшается, деньги уходят из кассы.'],
+ ['Выплачена зарплата с расчётного счёта на карты','70','51','Долг перед работниками уменьшается.'],
+ ['Перечислены налоги в бюджет','68','51','Долг перед бюджетом уменьшается.'],
+ ['Уплачены страховые взносы','69','51','Долг по взносам уменьшается.'],
+ ['Начислена амортизация станка в цехе','25','02','Износ цехового оборудования — косвенные производственные затраты.'],
+ ['Начислена амортизация офисного здания','26','02','Управленческие расходы.'],
+ ['Начислена амортизация программы для бухгалтерии (НМА)','26','05','Амортизация НМА копится на 05.'],
+ ['Куплено оборудование, счёт поставщика не оплачен','08','60','Пока оборудование не введено, затраты собирают на 08.'],
+ ['Оборудование введено в эксплуатацию','01','08','Из капвложений в основные средства.'],
+ ['Куплен патент, счёт продавца не оплачен','08','60','Сначала через 08.'],
+ ['Патент введён в эксплуатацию','04','08','НМА — счёт 04.'],
+ ['Выпущена из производства готовая продукция','43','20','Себестоимость переходит из 20 в 43.'],
+ ['Отражена выручка от продажи продукции покупателю','62','90','Покупатель должен нам, выручка по кредиту 90.'],
+ ['Списана себестоимость проданной продукции','90','43','Себестоимость продаж — по дебету 90.'],
+ ['Покупатель перечислил долг на расчётный счёт','51','62','Долг покупателя закрывается.'],
+ ['Получен аванс от покупателя на расчётный счёт','51','62','Аванс полученный — кредит 62, это не выручка.'],
+ ['Перечислен аванс поставщику','60','51','У 60 появляется дебетовое сальдо: поставщик должен нам.'],
+ ['Начислен НДС с выручки','90','68','НДС вычитается из продаж и становится долгом перед бюджетом.'],
+ ['НДС по материалам принят к вычету','68','19','Уменьшаем долг перед бюджетом.'],
+ ['В конце месяца списаны общепроизводственные расходы','20','25','Косвенные затраты цеха включаются в себестоимость.'],
+ ['В конце месяца списаны общехозяйственные расходы','90','26','По лекции 6 — в продажи как условно-постоянные.'],
+ ['В конце месяца списаны расходы на продажу','90','44','Закрываются в продажи.'],
+ ['Начислены расходы на рекламу (счёт агентства)','44','60','Коммерческие расходы.'],
+ ['Начислена арендная плата за офис','26','60','Общехозяйственные расходы.'],
+ ['Начислены коммунальные услуги цеха','25','60','Общепроизводственные расходы.'],
+ ['Определена прибыль от продаж за месяц','90','99','Прибыль — по кредиту 99.'],
+ ['Определён убыток от продаж за месяц','99','90','Убыток — по дебету 99.'],
+ ['Начислен штраф к получению с контрагента','76','91','Прочий доход, расчёт через 76.'],
+ ['Начислен штраф к уплате контрагенту','91','76','Прочий расход.'],
+ ['Получен на расчётный счёт ранее начисленный штраф','51','76','Доход уже признан, закрываем долг контрагента.'],
+ ['Начислены дивиденды к получению по акциям другой компании','76','91','Прочий доход.'],
+ ['Прочие доходы за месяц превысили прочие расходы','91','99','Прибыль от прочей деятельности.'],
+ ['Реформация: годовая прибыль закрыта','99','84','Прибыль переходит в нераспределённую.'],
+ ['Реформация: годовой убыток закрыт','84','99','Убыток уменьшает нераспределённую прибыль.'],
+ ['Создан резервный капитал за счёт прибыли','84','82','Внутри капитала.'],
+ ['Уставный капитал увеличен за счёт нераспределённой прибыли','84','80','Внутри капитала.'],
+ ['Уставный капитал увеличен за счёт добавочного','83','80','Внутри капитала.'],
+ ['Наличные деньги внесены на расчётный счёт','51','50','Расчётный счёт растёт, касса уменьшается.'],
+ ['С расчётного счёта получены деньги в кассу','50','51','Касса растёт, расчётный счёт уменьшается.']
+];
+ENTRY_RAW.forEach((r,i)=>add({id:'e-'+i, t:'vvod', q:r[0], kind:'entry', d:r[1], k:r[2], e:r[3], x:true}));
+const ENTRY_POOL = BANK.filter(q=>q.t==='vvod');
+const KEYS = ACC.map(a=>a[0]).sort();
+
+/* ===== account study: name ↔ number ===== */
+const KIND_SHORT=['активный','пассивный','активно-пассивный'];
+const AN_POOL=[], NA_POOL=[];
+ACC.forEach(acc => {
+  const [n,name,k] = acc; const others = ACC.filter(x=>x!==acc);
+  const near = others.slice().sort((a,b)=>Math.abs(+a[0]-+n)-Math.abs(+b[0]-+n))[0];
+  const ds = [near].concat(seededShuffle(others.filter(x=>x!==near), +n*31+7).slice(0,2));
+  const e = n+' — '+name+' ('+KIND_SHORT[k]+').';
+  const qa = {id:'an-'+n, t:'acc', q:'«'+name+'» — какой это счёт?', o:[n].concat(ds.map(x=>x[0])), a:0, e, x:true};
+  const qb = {id:'na-'+n, t:'acc', q:'Счёт '+n+' — это…', o:[name].concat(ds.map(x=>x[1])), a:0, e, x:true};
+  add(qa); add(qb); AN_POOL.push(qa); NA_POOL.push(qb);
+});
+
+/* ===== theory list from the teacher ===== */
+const KR_RAW = [
+ ['Для чего нужна документация?',['Чтобы каждый факт хозяйственной жизни был зафиксирован первичным документом и имел юридическую силу','Чтобы проверить фактическое наличие имущества','Чтобы посчитать себестоимость продукции','Чтобы передать информацию внешним пользователям'],0,'Документация — сплошная непрерывная регистрация фактов в первичных документах. Без документа операцию в учёт не берут.'],
+ ['Для чего нужна инвентаризация?',['Проверить фактическое наличие и состояние активов и обязательств и сверить с данными учёта','Зарегистрировать операцию в первичном документе','Выразить имущество в деньгах','Составить отчёт о финансовых результатах'],0,'Её цель — достоверность учёта и отчётности: находит излишки и недостачи.'],
+ ['Для чего нужна оценка?',['Выразить разнородные объекты учёта в едином денежном измерителе','Проверить наличие имущества','Зарегистрировать операцию','Распределить затраты по видам продукции'],0,'Станки, материалы и долги можно сложить только в деньгах.'],
+ ['Для чего нужно калькулирование?',['Определить затраты и себестоимость продукции','Проверить наличие денег в кассе','Составить баланс','Начислить налоги'],0,'Калькуляция исчисляет себестоимость; её порядок закрепляют в учётной политике.'],
+ ['Для чего нужны счета и двойная запись?',['Сгруппировать информацию по однородным объектам и отразить каждую операцию в двух связанных счетах','Проверить наличие имущества на складе','Выразить объекты в деньгах','Передать отчётность в налоговую'],0,'Это систематизация: вторичная регистрация информации.'],
+ ['Для чего нужен бухгалтерский баланс?',['Показать активы, капитал и обязательства организации на отчётную дату','Показать прибыль за год','Показать движение денег за период','Зарегистрировать операцию'],0,'Баланс — снимок финансового положения на дату.'],
+ ['Для чего нужна бухгалтерская отчётность?',['Обобщить и передать пользователям информацию о финансовом положении и результатах за период','Зарегистрировать каждую операцию','Проверить наличие имущества','Рассчитать себестоимость единицы продукции'],0,'Отчётность — этап передачи информации.'],
+ ['Какие два элемента метода фиксируют и проверяют факты хозяйственной жизни?',['Документация и инвентаризация','Оценка и калькулирование','Счета и двойная запись','Баланс и отчётность'],0,'Первая пара элементов: регистрация фактов и проверка их наличия.'],
+ ['Какие два элемента отвечают за денежное измерение (агрегирование)?',['Оценка и калькулирование','Документация и инвентаризация','Счета и двойная запись','Баланс и отчётность'],0,'Оценка выражает объекты в деньгах, калькулирование — затраты в себестоимости.'],
+ ['Какие элементы метода обеспечивают систематизацию информации?',['Счета и двойная запись','Документация и инвентаризация','Оценка и калькулирование','Только отчётность'],0,'По лекции к систематизации относят также баланс.'],
+ ['Как ещё называют бухгалтерский баланс?',['Отчёт о финансовом положении','Отчёт о финансовых результатах','Отчёт о движении денежных средств','Отчёт об изменениях капитала'],0,'Лекция 4: бухгалтерский баланс (отчёт о финансовом положении).'],
+ ['Какой отчёт показывает прибыль или убыток за период?',['Отчёт о финансовых результатах','Бухгалтерский баланс','Отчёт о движении денежных средств','Отчёт об изменениях капитала'],0,'Выручка → себестоимость → … → чистая прибыль.'],
+ ['Какой отчёт показывает поступление и расходование денег за период?',['Отчёт о движении денежных средств','Отчёт о финансовых результатах','Бухгалтерский баланс','Отчёт об изменениях капитала'],0,'Деньги «пришли — ушли» за период.'],
+ ['Какой отчёт показывает, как за год изменились уставный капитал, резервы и нераспределённая прибыль?',['Отчёт об изменениях капитала','Отчёт о финансовых результатах','Отчёт о движении денежных средств','Бухгалтерский баланс'],0,'Приложение к балансу и ОФР.'],
+ ['Что входит в состав бухгалтерской отчётности?',['Баланс, отчёт о финансовых результатах, отчёт об изменениях капитала, отчёт о движении денежных средств и пояснения','Баланс и налоговая декларация','Только баланс','Баланс, устав и приказ об учётной политике'],0,'Лекция 8: баланс, ОФР и приложения к ним.'],
+ ['Чем балансовые счета отличаются от забалансовых?',['Сальдо балансовых счетов попадает в баланс; забалансовые показывают за балансом и ведут без двойной записи','Балансовые ведут только в натуральных единицах','Забалансовые всегда имеют кредитовое сальдо','Разницы нет'],0,'Забалансовые счета 001–011 в баланс не входят.'],
+ ['Что учитывают на забалансовых счетах?',['Имущество, которое организации не принадлежит (аренда, ответственное хранение, комиссия), и справочную информацию','Основные средства организации','Уставный капитал','Выручку от продаж'],0,'Например, 001 «Арендованные основные средства», 004 «Товары, принятые на комиссию».'],
+ ['По какой формуле проверяют общий итог баланса?',['I + II = III + IV + V','I + III = II + IV + V','I + II + III = IV + V','I − II = III − IV − V'],0,'Итог актива (внеоборотные + оборотные) равен итогу пассива (капитал + долгосрочные + краткосрочные обязательства).'],
+ ['Итог актива 3 190 000, итог пассива 3 290 000. Что это значит?',['В расчёте ошибка: например, не вычтена амортизация или статья попала не в тот раздел','Так бывает, разницу пишут в III раздел','Баланс составлен верно','Разницу добавляют в V раздел'],0,'Баланс всегда сходится. Если нет — ищи ошибку.'],
+ ['Как проверить записи на счетах за месяц?',['В оборотно-сальдовой ведомости итоги по дебету и кредиту попарно равны','Сравнить кассу с расчётным счётом','Сложить все дебетовые обороты','Проверить только сальдо 99'],0,'Двойная запись даёт равные суммы по дебету и кредиту.'],
+ ['Из чего состоит проводка?',['Дебетуемый счёт, кредитуемый счёт и сумма','Только сумма операции','Номер счёта и дата','Подпись бухгалтера и печать'],0,'Например: Дт 10 Кт 60 — 70 000.']
+];
+KR_RAW.forEach((r,i)=>add({id:'kr-'+i, t:'kr', q:r[0], o:r[1], a:r[2], e:r[3], x:true}));
+const KR_POOL = BANK.filter(q=>q.t==='kr');
+
+/* name → number questions, built fresh each time */
+function nameQ(i){
+  const acc = ACC[i]; const others = shuffle(ACC.filter(x=>x!==acc)).slice(0,3).map(x=>x[0]);
+  return {id:'n-'+acc[0], t:'s27', q:'Какой номер у счёта «'+acc[1]+'»?', o:[acc[0],...others], a:0, e:'Счёт '+acc[0]+'. '+(acc[4]||''), gen:true};
+}
+/* generated number tasks */
+function rnd(a,b,step){ return Math.round((a+Math.random()*(b-a))/step)*step; }
+const fmt = n => n.toLocaleString('ru-RU').replace(/ /g,' ');
+function numOpts(r, cands, suffix){
+  const out=[r]; cands.concat([r+10000,r-10000,r+20000,r+5000]).forEach(v => { if(out.length<4 && v>0 && !out.includes(v)) out.push(v); });
+  return out.map(v => fmt(v)+suffix);
+}
+function genTask(){
+  const kind = Math.floor(Math.random()*4);
+  const id = 'g-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  if(kind===0){ // active
+    const s=rnd(20000,200000,5000), d=rnd(50000,300000,5000), c=rnd(20000,s+d-5000,5000), r=s+d-c;
+    return {id,t:'zad',gen:true,q:'Активный счёт 51: Сн '+fmt(s)+', ОбДт '+fmt(d)+', ОбКт '+fmt(c)+'. Конечное сальдо?',o:numOpts(r,[s+c-d,s+d+c,d-c,r+c],' Дт'),a:0,e:'Ск = Сн + ОбДт − ОбКт = '+fmt(s)+' + '+fmt(d)+' − '+fmt(c)+' = '+fmt(r)+'.'};
+  }
+  if(kind===1){ // passive
+    const s=rnd(10000,150000,5000), c=rnd(50000,250000,5000), d=rnd(10000,s+c-5000,5000), r=s+c-d;
+    return {id,t:'zad',gen:true,q:'Пассивный счёт 70: Сн '+fmt(s)+' Кт, ОбДт '+fmt(d)+', ОбКт '+fmt(c)+'. Конечное сальдо?',o:numOpts(r,[s+d-c,s+c+d,c-d],' Кт').slice(0,3).concat([fmt(r)+' Дт']),a:0,e:'Ск = Сн + ОбКт − ОбДт = '+fmt(s)+' + '+fmt(c)+' − '+fmt(d)+' = '+fmt(r)+' по кредиту.'};
+  }
+  if(kind===2){ // folded 99
+    const sk=rnd(10000,100000,5000), d=rnd(20000,150000,5000), c=rnd(10000,120000,5000); const v=-sk+d-c;
+    if(v===0) return genTask();
+    const ans = v>0 ? fmt(v)+' Дт (убыток)' : fmt(-v)+' Кт (прибыль)';
+    const wrong1 = v>0 ? fmt(v)+' Кт (прибыль)' : fmt(-v)+' Дт (убыток)';
+    const alt = sk+d-c; const wrong2 = fmt(Math.abs(alt)||5000)+(alt>=0?' Дт (убыток)':' Кт (прибыль)');
+    const wrong3 = fmt(sk+d+c)+' Кт (прибыль)';
+    const opts=[ans,wrong1,wrong2,wrong3]; if(new Set(opts).size<4) return genTask();
+    return {id,t:'zad',gen:true,q:'Счёт 99: СнКт '+fmt(sk)+', ОбДт '+fmt(d)+', ОбКт '+fmt(c)+'. Конечное сальдо?',o:opts,a:0,e:'(СнДт − СнКт) + ОбДт − ОбКт = (0 − '+fmt(sk)+') + '+fmt(d)+' − '+fmt(c)+' = '+(v>0?'+':'−')+fmt(Math.abs(v))+'. '+(v>0?'Плюс — дебет, убыток.':'Минус — кредит, прибыль.')};
+  }
+  // balance currency
+  const V=rnd(300000,900000,10000), x=rnd(10000,90000,5000);
+  const ops=[['Получен краткосрочный займ на расчётный счёт',1],['С расчётного счёта погашена задолженность поставщику',-1],['Материалы переданы в основное производство',0],['Уставный капитал увеличен за счёт добавочного',0],['Начислена зарплата рабочим цеха',1],['Покупатель перечислил долг на расчётный счёт',0],['Перечислены налоги в бюджет',-1]];
+  const op=ops[Math.floor(Math.random()*ops.length)]; const r=V+op[1]*x;
+  const vals=[r,V,V+x,V-x].filter((v,i,a)=>a.indexOf(v)===i); while(vals.length<4) vals.push(V+2*x*vals.length);
+  return {id,t:'zad',gen:true,q:'Валюта баланса '+fmt(V)+'. '+op[0]+', '+fmt(x)+'. Какой станет валюта баланса?',o:vals.map(fmt),a:0,e:(op[1]===1?'Тип 1: актив и пассив растут.':op[1]===-1?'Тип 2: актив и пассив уменьшаются.':'Изменения внутри одной стороны: валюта не меняется.')+' Итог: '+fmt(r)+'.'};
+}
+
+/* ===================== UTIL ===================== */
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function seeded(seed){ return () => { seed = (seed*1664525+1013904223)>>>0; return seed/4294967296; }; }
+function seededShuffle(a,seed){ const r=seeded(seed); a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+const STATIC = BANK.filter(q=>!q.gen && !q.x);
+const isOk = (q,a) => (a===null||a===undefined) ? false : (q.kind==='entry' ? !!a.ok : a===q.a);
+const ansText = (q,a) => q.kind==='entry' ? (a.idk ? 'Не знаю' : 'Дт '+a.d+' Кт '+a.k) : (a===-1 ? 'Не знаю' : q.o[a]);
+const correctText = q => q.kind==='entry' ? 'Дт '+q.d+' Кт '+q.k : q.o[q.a];
+const TICKET_SIZE = 10;
+const TICKETS = (() => { const s = seededShuffle(STATIC.map(q=>q.id), 2026); const out=[]; for(let i=0;i<s.length;i+=TICKET_SIZE) out.push(s.slice(i,i+TICKET_SIZE)); if(out.length>1 && out.at(-1).length<6){ const last=out.pop(); out[out.length-1]=out.at(-1).concat(last);} return out; })();
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ===================== STATE & STORAGE ===================== */
+const KEY='finuchet-kr1-v1';
+const blank = () => ({v:1, seen:{}, mist:{}, tickets:{}, exams:[], session:null, theme:'auto', updated:0});
+let S = blank();
+try { const raw = localStorage.getItem(KEY); if(raw){ S = Object.assign(blank(), JSON.parse(raw)); } } catch(e){}
+let cloud = {ref:null, ok:false, timer:null};
+function save(){
+  S.updated = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+  if(cloud.ok && cloud.ref){ clearTimeout(cloud.timer); cloud.timer = setTimeout(pushCloud, 1500); }
+}
+function pushCloud(){
+  const body = {v:1, seen:S.seen, mist:S.mist, tickets:S.tickets, exams:S.exams.slice(-30), bal:S.bal||null, updated:S.updated};
+  cloud.ref.set(body).catch(err => { if(err && (err.code==='invalid_argument'||err.code==='revoked'||err.code==='not_granted')){ cloud.ok=false; renderIfHome(); } });
+}
+function merge(remote){
+  if(!remote) return;
+  if(remote.bal && (!S.bal || (remote.bal.n||0) > (S.bal.n||0))) S.bal = remote.bal;
+  Object.entries(remote.seen||{}).forEach(([id,r]) => { const l=S.seen[id]; if(!l || (r.n||0)>(l.n||0)) S.seen[id]=r; });
+  if((remote.updated||0) > (S.updated||0)) { S.mist = Object.assign({}, S.mist, remote.mist||{}); }
+  else { Object.entries(remote.mist||{}).forEach(([id,m]) => { if(!(id in S.mist) && (m.ts||0) > (S.updated||0)) S.mist[id]=m; }); }
+  Object.entries(remote.tickets||{}).forEach(([k,r]) => { const l=S.tickets[k]; if(!l || (r.best??99) < (l.best??99) || (r.tries||0)>(l.tries||0)) S.tickets[k]=Object.assign({}, l||{}, r, {best:Math.min(r.best??99, l?.best??99)}); });
+  const seenEx = new Set(S.exams.map(x=>x.at)); (remote.exams||[]).forEach(x => { if(!seenEx.has(x.at)) S.exams.push(x); }); S.exams.sort((a,b)=>a.at-b.at);
+}
+(async function initCloud(){
+  try{
+    if(!window.claude || !window.claude.use) return;
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if(!db || !user) return;
+    const uid = await user.id(); if(!uid) return;
+    cloud.ref = db.doc('data/users/'+uid+'/progress');
+    const snap = await cloud.ref.get();
+    cloud.ok = true;
+    if(snap.exists){ merge(snap.data()); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+    pushCloud();
+    renderIfHome();
+  }catch(e){ cloud.ok=false; }
+})();
+
+function applyTheme(){ const r=document.documentElement; if(S.theme==='auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', S.theme); }
+applyTheme();
+
+/* ===================== RECORDING ===================== */
+function record(q, ok, mode){
+  const s = S.seen[q.id] || {n:0, c:0}; s.n++; if(ok) s.c++; s.last = ok?1:0; s.st = ok ? (s.st||0)+1 : 0; S.seen[q.id]=s;
+  if(!ok){ S.mist[q.id] = {ts:Date.now(), q: q.gen ? {id:q.id,t:q.t,q:q.q,o:q.o,a:q.a,e:q.e,f:q.f} : null}; }
+  else if(mode==='mist'){ delete S.mist[q.id]; }
+}
+function mistakeList(){ return Object.entries(S.mist).sort((a,b)=>b[1].ts-a[1].ts).map(([id,m]) => BYID[id] || m.q).filter(Boolean); }
+
+/* ===================== SESSION ===================== */
+function startSession(mode, title, qs, extra){
+  const order = qs.map(q => q.kind==='entry' ? [] : q.f ? q.o.map((_,i)=>i) : shuffle(q.o.map((_,i)=>i)));
+  S.session = Object.assign({mode, title, qs, order, ans: qs.map(()=>null), idx:0, startedAt:Date.now()}, extra||{});
+  save(); go('quiz');
+}
+function liveQ(i){ return S.session.qs[i]; }
+
+/* ===================== VIEWS ===================== */
+const topEl = document.getElementById('top'), view = document.getElementById('view'), bottom = document.getElementById('bottom'), bottomIn = document.getElementById('bottomIn');
+let screen = 'home', param = null, timerInt = null;
+const ICON_BACK = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+function go(s, p){ screen=s; param=p; render(); window.scrollTo(0,0); }
+function renderIfHome(){ if(screen==='home') render(); }
+function header(title, right){ topEl.innerHTML = (screen==='home' ? '' : '<button class="iconbtn" id="back" aria-label="Назад">'+ICON_BACK+'</button>') + '<h1>'+esc(title)+'</h1>' + (right||''); const b=document.getElementById('back'); if(b) b.onclick=()=>{ if(screen==='result'){ go('home'); } else go(screen==='quiz'?'home':'home'); }; }
+function setBottom(html){ if(!html){ bottom.hidden=true; bottomIn.innerHTML=''; return; } bottom.hidden=false; bottomIn.innerHTML=html; }
+
+function render(){
+  clearInterval(timerInt); timerInt=null;
+  view.classList.remove('fade'); void view.offsetWidth; view.classList.add('fade');
+  ({home:renderHome, tickets:renderTickets, topics:renderTopics, quiz:renderQuiz, result:renderResult, mist:renderMist, sort:renderSort, accounts:renderAccounts, balance:renderBalance, theory:renderTheory})[screen]();
+}
+
+function stats(){
+  const ids = STATIC.map(q=>q.id); let seen=0, n=0, c=0;
+  ids.forEach(id => { const s=S.seen[id]; if(s){ seen++; } });
+  Object.values(S.seen).forEach(s => { n+=s.n; c+=s.c; });
+  return {seen, total:ids.length, acc: n? Math.round(c/n*100) : null, mist:Object.keys(S.mist).length};
+}
+
+function renderHome(){
+  header('Финучёт · КР №1');
+  const st = stats(), ses = S.session;
+  const lastEx = S.exams.at(-1);
+  view.innerHTML = `
+    <div class="hero"><h2>Билеты к контрольной</h2><p>${st.total} вопросов: счета, баланс, проводки, теория. Плюс задачи, которые каждый раз генерируются заново.</p></div>
+    ${ses && ses.ans.some(a=>a===null) ? `<button class="resume" id="resume"><div class="t"><b>Продолжить: ${esc(ses.title)}</b><span>Вопрос ${ses.idx+1} из ${ses.qs.length}</span></div><span class="chev">›</span></button>` : ''}
+    <div class="stats">
+      <div class="stat"><b>${st.seen}<small style="font-size:13px;color:var(--muted)">/${st.total}</small></b><span>вопросов решено</span></div>
+      <div class="stat"><b>${st.acc===null?'—':st.acc+'%'}</b><span>правильных ответов</span></div>
+      <div class="stat"><b style="color:${st.mist?'var(--bad)':'inherit'}">${st.mist}</b><span>в ошибках</span></div>
+    </div>
+    <button class="primary" id="exam"><div><b>Экзамен</b><span>20 случайных вопросов · 20 минут · не больше 2 ошибок</span></div><span>›</span></button>
+    <div class="menu">
+      ${item('theory','Теория','Вся база простыми словами и формулы для задач')}
+      ${item('accounts','Счета','Номер ↔ название всех 27 счетов')}
+      ${item('tickets','Билеты',TICKETS.length+' билетов по '+TICKET_SIZE+' вопросов', ticketsDone()+'/'+TICKETS.length)}
+      ${item('topics','Темы','10 блоков по темам КР')}
+      ${item('balance','Собери баланс','Задача как на КР: итоги разделов и валюта', S.bal&&S.bal.n ? (S.bal.perfect||0)+'/'+S.bal.n : '')}
+      ${item('sort','Разложи по разделам','10 статей: выбери раздел баланса I–V')}
+      ${item('entry','Проводки вручную','Сам вписываешь Дт и Кт, потом проверка')}
+      ${item('zad','Мини-задачи','Сальдо, баланс, валюта баланса')}
+      ${item('marathon','Марафон','Все вопросы подряд в случайном порядке')}
+      ${item('mist','Ошибки и уровень знаний', 'Отлично · хорошо · плохо · не знаю', st.mist||'', st.mist?'bad':'')}
+    </div>
+    ${lastEx ? `<p class="note">Последний экзамен: ${lastEx.ok?'сдан':'не сдан'}, ${lastEx.score} из ${lastEx.total}.</p>` : ''}
+    <div class="foot">
+      <div class="row">
+        <button class="chipbtn" id="theme">Тема: ${({auto:'как в системе',light:'светлая',dark:'тёмная'})[S.theme]}</button>
+        <button class="chipbtn danger" id="reset">Сбросить прогресс</button>
+      </div>
+      <span>${cloud.ok ? 'Прогресс сохраняется на этом телефоне.' : 'Прогресс и ошибки сохраняются на этом телефоне.'}</span>
+    </div>`;
+  setBottom('');
+  const on=(id,f)=>{const e=document.getElementById(id); if(e) e.onclick=f;};
+  on('resume',()=>go('quiz'));
+  on('exam',startExam);
+  on('m-tickets',()=>go('tickets'));
+  on('m-accounts',()=>go('accounts'));
+  on('m-theory',()=>go('theory'));
+  on('m-topics',()=>go('topics'));
+  on('m-zad',startZad);
+  on('m-sort',newSortRound);
+  on('m-balance',newBalance);
+  on('m-entry',startEntry);
+  on('m-marathon',()=>startSession('marathon','Марафон', shuffle(STATIC)));
+  on('m-mist',()=>go('mist'));
+  on('theme',()=>{ S.theme = S.theme==='auto'?'light':S.theme==='light'?'dark':'auto'; applyTheme(); save(); render(); });
+  let armed=false; on('reset',e=>{ const b=e.currentTarget; if(!armed){ armed=true; b.textContent='Нажми ещё раз, чтобы стереть всё'; setTimeout(()=>{armed=false; if(b.isConnected) b.textContent='Сбросить прогресс';},3000); return; } const th=S.theme; S=blank(); S.theme=th; save(); if(cloud.ok) pushCloud(); render(); });
+}
+function item(id,title,sub,badge,cls){ return `<button class="mitem" id="m-${id}"><div class="t"><b>${title}</b><span>${sub}</span></div>${badge!==undefined&&badge!==''?`<span class="badge ${cls||''}">${badge}</span>`:''}<span class="chev">›</span></button>`; }
+function ticketsDone(){ return Object.values(S.tickets).filter(t=>t.best===0).length; }
+
+function startExam(){
+  // proportional spread over topics
+  const byT = {}; STATIC.concat(KR_POOL).forEach(q => (byT[q.t]=byT[q.t]||[]).push(q));
+  const plan = {kr:3,osn:1,sred:2,metod:2,bal:2,vliy:2,scheta:2,s27:2,prov:3,zad:1,otch:1};
+  let qs=[]; Object.entries(plan).forEach(([t,n]) => qs = qs.concat(shuffle(byT[t]).slice(0,n)));
+  qs.splice(Math.floor(Math.random()*qs.length),0,genTask()); qs = shuffle(qs).slice(0,20);
+  startSession('exam','Экзамен', qs, {limit:20*60*1000});
+}
+function startZad(){
+  const qs = shuffle(RAW.zad.map((_,i)=>BYID['zad-'+i])).slice(0,6);
+  for(let i=0;i<6;i++) qs.push(genTask());
+  startSession('zad','Мини-задачи', shuffle(qs));
+}
+
+function tLevel(e){ return e===0?'ok':e<=2?'mid':e<=5?'weak':'none'; }
+function renderTickets(){
+  header('Билеты');
+  view.innerHTML = `<div class="legend"><span><i class="dot ok"></i>отлично · 0 ошибок</span><span><i class="dot mid"></i>хорошо · 1–2</span><span><i class="dot weak"></i>плохо · 3–5</span><span><i class="dot none"></i>не знаю · 6+</span></div>
+    <div class="tgrid">${TICKETS.map((_,i)=>{ const t=S.tickets[i]; const e = t ? (t.last ?? t.best) : null; const cls = e===null ? '' : tLevel(e); return `<button class="tile ${cls}" data-t="${i}">${i+1}${t?`<small>${e===0?'✓':'ош. '+e}</small>`:''}</button>`; }).join('')}</div>
+    <p class="note">Цвет показывает последнюю попытку. «Не знаю» и пропуск считаются ошибкой.</p>`;
+  setBottom('');
+  view.querySelectorAll('.tile').forEach(b => b.onclick = () => { const i=+b.dataset.t; startSession('ticket','Билет '+(i+1), TICKETS[i].map(id=>BYID[id]), {ticket:i}); });
+}
+
+function renderTopics(){
+  header('Темы');
+  const byT = {}; STATIC.concat(KR_POOL).forEach(q => (byT[q.t]=byT[q.t]||[]).push(q));
+  view.innerHTML = `<div class="menu">${Object.keys(TOPICS).filter(t=>byT[t]).map(t => { const qs=byT[t]||[]; const good=qs.filter(q=>S.seen[q.id]&&S.seen[q.id].last===1).length; const pct=qs.length?Math.round(good/qs.length*100):0; return `<button class="mitem" data-t="${t}"><div class="t"><b>${TOPICS[t]}</b><span>${qs.length} вопросов · верно ${good}</span><div class="bar"><i style="width:${pct}%"></i></div></div><span class="chev">›</span></button>`; }).join('')}</div>`;
+  setBottom('');
+  view.querySelectorAll('.mitem').forEach(b => b.onclick = () => { const t=b.dataset.t; let qs = shuffle(byT[t]); if(t==='s27'){ qs = shuffle(qs.concat(ACC.map((_,i)=>nameQ(i)).slice(0,10))); } if(t==='zad'){ qs = shuffle(qs.concat([genTask(),genTask(),genTask(),genTask()])); } startSession('topic', TOPICS[t], qs); });
+}
+
+function renderQuiz(){
+  const ses = S.session; if(!ses){ go('home'); return; }
+  const i = ses.idx, q = liveQ(i), ord = ses.order[i], chosen = ses.ans[i];
+  const answeredN = ses.ans.filter(a=>a!==null).length;
+  const right = ses.mode==='exam' ? `<span class="counter" id="timer"></span>` : `<span class="counter">${i+1}/${ses.qs.length}</span>`;
+  header(ses.title, right);
+  const pills = ses.qs.length<=40 ? `<div class="pills" id="pills">${ses.qs.map((qq,k)=>{ const a=ses.ans[k]; const cls = a===null?'':(isOk(qq,a)?'ok':'bad'); return `<button class="pill ${cls} ${k===i?'cur':''}" data-k="${k}">${k+1}</button>`; }).join('')}</div>` : `<div class="bar"><i style="width:${Math.round(answeredN/ses.qs.length*100)}%"></i></div>`;
+  const letters='АБВГДЕ';
+  const isEntry = q.kind==='entry', done = chosen!==null;
+  let body;
+  if(isEntry){
+    const dOk = done && chosen.d===q.d, kOk = done && chosen.k===q.k;
+    body = `<div class="entry">
+        <label class="slot ${done?(dOk?'ok':'bad'):'active'}" id="slotD"><span>Дебет</span><input id="inD" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" placeholder="—" value="${done?esc(chosen.d):''}" ${done?'disabled':''}></label>
+        <label class="slot ${done?(kOk?'ok':'bad'):''}" id="slotK"><span>Кредит</span><input id="inK" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" placeholder="—" value="${done?esc(chosen.k):''}" ${done?'disabled':''}></label>
+      </div>
+      ${done ? `<div class="expl ${chosen.ok?'good':'bad'}"><b>${chosen.ok?'Верно: ':(chosen.idk?'Правильно: ':'Неверно. Правильно: ')}Дт ${q.d} Кт ${q.k}</b><span>${esc(q.e||'')}</span></div>`
+             : `<div class="keypad">${KEYS.map(n=>`<button class="key" data-n="${n}">${n}</button>`).join('')}</div><p class="note" id="enote">Впиши номера счетов или нажимай на них: сначала заполнится дебет, потом кредит.</p>`}`;
+  } else {
+    body = `<div class="opts">${ord.map((oi,pos)=>{ let cls=''; if(done){ if(oi===q.a) cls='ok'; else if(oi===chosen) cls='bad'; else cls='dim'; } return `<button class="opt ${cls}" data-oi="${oi}" ${done?'disabled':''}><span class="mk">${done&&oi===q.a?'✓':done&&oi===chosen?'✕':letters[pos]}</span><span>${esc(q.o[oi])}</span></button>`; }).join('')}<button class="opt idk ${done?(chosen===-1?'bad':'dim'):''}" data-oi="-1" ${done?'disabled':''}><span class="mk">?</span><span>Не знаю</span></button></div>
+    ${done ? `<div class="expl ${chosen===q.a?'good':'bad'}"><b>${chosen===q.a?'Верно':(chosen===-1?'Правильно: ':'Неверно. Правильно: ')+esc(q.o[q.a])}</b><span>${esc(q.e||'')}</span></div>` : ''}`;
+  }
+  view.innerHTML = `${pills}
+    <div class="qtag">${esc(TOPICS[q.t]||'')}</div>
+    <p class="qtext">${esc(q.q)}${isEntry?'':''}</p>
+    ${body}`;
+  const last = i===ses.qs.length-1, allDone = ses.ans.every(a=>a!==null);
+  const nextLabel = !done ? 'Пропустить' : (allDone ? 'Результат' : (last ? 'К пропущенным' : 'Дальше'));
+  if(isEntry && !done) setBottom(`<button class="act ghost" id="idk">Не знаю</button><button class="act main" id="check">Проверить</button>`);
+  else setBottom(`<button class="act ghost" id="finish">Завершить</button><button class="act ${done?'main':''}" id="next">${nextLabel}</button>`);
+  view.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.oi));
+  view.querySelectorAll('.pill').forEach(b => b.onclick = () => { ses.idx=+b.dataset.k; save(); render(); });
+  const cur = view.querySelector('.pill.cur'); if(cur) cur.scrollIntoView({block:'nearest',inline:'center'});
+  const nb=document.getElementById('next'); if(nb) nb.onclick = next;
+  const ik=document.getElementById('idk'); if(ik) ik.onclick = () => { if(ses.ans[i]!==null) return; ses.ans[i]={d:'',k:'',ok:false,idk:true}; record(q,false,ses.mode); save(); render(); };
+  const fb=document.getElementById('finish');
+  if(fb){ let armed=false; fb.onclick = e => { if(allDone){ finish(); return; } if(!armed){ armed=true; e.currentTarget.textContent='Точно?'; setTimeout(()=>{armed=false; const f=document.getElementById('finish'); if(f) f.textContent='Завершить';},2500); return; } finish(); }; }
+  if(isEntry && !done) wireEntry(q);
+  if(ses.mode==='exam') tick();
+}
+function normAcc(v){ v=String(v||'').replace(/\D/g,'').slice(0,2); return v.length===1 ? '0'+v : v; }
+function wireEntry(q){
+  const inD=document.getElementById('inD'), inK=document.getElementById('inK'), sD=document.getElementById('slotD'), sK=document.getElementById('slotK');
+  let active='D';
+  const mark=()=>{ sD.classList.toggle('active',active==='D'); sK.classList.toggle('active',active==='K'); };
+  inD.onfocus=()=>{active='D';mark();}; inK.onfocus=()=>{active='K';mark();};
+  sD.onclick=()=>{active='D';mark();}; sK.onclick=()=>{active='K';mark();};
+  inD.oninput=()=>{ inD.value=inD.value.replace(/\D/g,'').slice(0,2); if(inD.value.length===2){ active='K'; mark(); if(document.activeElement===inD) inK.focus(); } };
+  inK.oninput=()=>{ inK.value=inK.value.replace(/\D/g,'').slice(0,2); };
+  [inD,inK].forEach(x=>x.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); checkEntry(q); } });
+  view.querySelectorAll('.key').forEach(b=>b.onclick=()=>{ if(active==='D'){ inD.value=b.dataset.n; active='K'; } else { inK.value=b.dataset.n; } mark(); });
+  document.getElementById('check').onclick=()=>checkEntry(q);
+}
+function checkEntry(q){
+  const ses=S.session, i=ses.idx; if(ses.ans[i]!==null) return;
+  const d=normAcc(document.getElementById('inD').value), k=normAcc(document.getElementById('inK').value);
+  if(!d||!k){ const n=document.getElementById('enote'); if(n){ n.textContent='Заполни и дебет, и кредит.'; n.style.color='var(--bad)'; } return; }
+  const ok = d===q.d && k===q.k;
+  ses.ans[i]={d,k,ok}; record(q, ok, ses.mode); save(); render();
+}
+function tick(){
+  const el=document.getElementById('timer'); const ses=S.session; if(!el||!ses) return;
+  const upd=()=>{ const left=Math.max(0, ses.limit-(Date.now()-ses.startedAt)); const m=Math.floor(left/60000), s=Math.floor(left%60000/1000); el.textContent=m+':'+String(s).padStart(2,'0'); if(left<=0){ clearInterval(timerInt); finish(); } };
+  upd(); timerInt=setInterval(upd,1000);
+}
+function answer(oi){
+  const ses=S.session, i=ses.idx, q=liveQ(i); if(ses.ans[i]!==null) return;
+  ses.ans[i]=oi; record(q, oi===q.a, ses.mode); save(); render();
+  if(oi===q.a){ const ex=view.querySelector('.expl'); if(ex) ex.scrollIntoView({block:'nearest',behavior:'smooth'}); } else { const ex=view.querySelector('.expl'); if(ex) ex.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+}
+function next(){
+  const ses=S.session; if(ses.ans.every(a=>a!==null)){ finish(); return; }
+  let k = ses.idx+1; while(k<ses.qs.length && ses.ans[k]!==null) k++;
+  if(k>=ses.qs.length){ k = ses.ans.findIndex(a=>a===null); }
+  ses.idx=k; save(); render();
+}
+function finish(){
+  const ses=S.session; if(!ses) return;
+  const total=ses.qs.length, score=ses.qs.filter((q,k)=>isOk(q,ses.ans[k])).length, errs=ses.qs.filter((q,k)=>ses.ans[k]!==null&&!isOk(q,ses.ans[k])).length, skipped=ses.ans.filter(a=>a===null).length;
+  const res = {mode:ses.mode, title:ses.title, total, score, errs, skipped, wrong: ses.qs.map((q,k)=>({q,a:ses.ans[k]})).filter(x=>!isOk(x.q,x.a))};
+  if(ses.mode==='ticket'){ const t=S.tickets[ses.ticket]||{tries:0}; t.tries=(t.tries||0)+1; const e=errs+skipped; t.best=Math.min(t.best??99, e); t.last=e; S.tickets[ses.ticket]=t; res.ticket=ses.ticket; }
+  if(ses.mode==='exam'){ res.ok = errs+skipped<=2; S.exams.push({at:Date.now(), score, total, ok:res.ok}); }
+  S.session=null; save(); go('result', res);
+}
+
+function renderResult(){
+  const r=param; if(!r){ go('home'); return; }
+  header(r.title);
+  let status='', cls='';
+  if(r.mode==='exam'){ status = r.ok ? 'Экзамен сдан' : 'Экзамен не сдан'; cls = r.ok?'good':'bad'; }
+  else if(r.errs+r.skipped===0){ status='Без ошибок'; cls='good'; }
+  else { status = 'Ошибок: '+r.errs + (r.skipped?', пропущено: '+r.skipped:''); cls='bad'; }
+  view.innerHTML = `<div class="res"><div class="big">${r.score} / ${r.total}</div><div class="st ${cls}">${status}</div>${r.mode==='exam'?'<p>Правило как в ПДД: сдано, если ошибок и пропусков не больше двух.</p>':''}${r.errs?'<p>Вопросы с ошибками уже лежат в разделе «Мои ошибки».</p>':''}</div>
+    ${r.wrong.length?`<h3 class="sec">Разбор</h3><div class="wrong">${r.wrong.map(w=>`<div class="witem"><span class="tag">${esc(TOPICS[w.q.t]||'')}</span><span>${esc(w.q.q)}</span>${w.a!==null?`<span style="color:var(--bad);font-size:14.5px">Твой ответ: ${esc(ansText(w.q,w.a))}</span>`:'<span style="color:var(--muted);font-size:14.5px">Пропущен</span>'}<span class="a">Правильно: ${esc(correctText(w.q))}</span></div>`).join('')}</div>`:''}`;
+  const nextT = r.mode==='ticket' && r.ticket < TICKETS.length-1;
+  setBottom(`<button class="act ghost" id="home">Меню</button>` + (r.errs ? `<button class="act main" id="fix">Прорешать ошибки</button>` : nextT ? `<button class="act main" id="nt">Билет ${r.ticket+2}</button>` : `<button class="act main" id="again">Ещё раз</button>`));
+  const on=(id,f)=>{const e=document.getElementById(id); if(e) e.onclick=f;};
+  on('home',()=>go('home'));
+  on('fix',()=>startSession('mist','Работа над ошибками', r.wrong.map(w=>w.q)));
+  on('nt',()=>{ const i=r.ticket+1; startSession('ticket','Билет '+(i+1), TICKETS[i].map(id=>BYID[id]), {ticket:i}); });
+  on('again',()=>{ if(r.mode==='exam') startExam(); else if(r.mode==='zad') startZad(); else if(r.mode==='entry') startEntry(); else if(r.mode==='acc') go('accounts'); else if(r.mode==='ticket') startSession('ticket',r.title,TICKETS[r.ticket].map(id=>BYID[id]),{ticket:r.ticket}); else go('home'); });
+}
+
+const LEVELS = [
+  ['great','Знаю отлично','Верно 2+ раза подряд, точность от 80%'],
+  ['good','Знаю хорошо','Последний ответ верный'],
+  ['bad','Знаю плохо','Последний ответ неверный или точность ниже 50%'],
+  ['none','Не знаю совсем','Ещё ни разу не ответил верно']
+];
+function levelOf(s){
+  if(!s || !s.n) return null;
+  const acc = s.c/s.n, st = s.st ?? (s.last ? 1 : 0);
+  if(s.last===0) return s.c===0 ? 'none' : 'bad';
+  if(acc < 0.5) return 'bad';
+  if(st >= 2 && acc >= 0.8) return 'great';
+  return 'good';
+}
+function clusters(){
+  const out = {great:[], good:[], bad:[], none:[], fresh:[]};
+  Object.values(BYID).forEach(q => out[levelOf(S.seen[q.id]) || 'fresh'].push(q));
+  return out;
+}
+function renderMist(){
+  header('Ошибки и уровень');
+  const cl = clusters(), list = mistakeList();
+  const byT={}; list.forEach(q=>(byT[q.t]=byT[q.t]||[]).push(q));
+  view.innerHTML = `<div class="lvgrid">${LEVELS.map(([k,l,d])=>`<button class="lv" data-l="${k}" ${cl[k].length?'':'disabled'}><span class="lvn">${cl[k].length}</span><b><i class="dot ${k}"></i>${l}</b><span class="d">${d}</span></button>`).join('')}</div>
+    <div class="foot"><div class="row"><button class="chipbtn" id="fresh" ${cl.fresh.length?'':'disabled'}><i class="dot fresh"></i>Ещё не решал: ${cl.fresh.length} · дать 10</button></div><span>Нажми на группу, чтобы прорешать её вопросы. Уровень пересчитывается после каждого ответа.</span></div>
+    <h3 class="sec">Сейчас в ошибках · ${list.length}</h3>
+    ${list.length ? `<p class="note">Ответь правильно здесь, и вопрос уйдёт из списка.</p>
+      ${Object.keys(TOPICS).filter(t=>byT[t]).map(t=>`<h3 class="sec">${TOPICS[t]} · ${byT[t].length}</h3><div class="wrong">${byT[t].map(q=>`<div class="witem"><span>${esc(q.q)}</span><span class="a">Правильно: ${esc(correctText(q))}</span></div>`).join('')}</div>`).join('')}
+      <button class="chipbtn danger" id="clear" style="justify-self:start">Очистить список ошибок</button>`
+    : `<div class="empty">Сейчас ошибок нет. Сюда попадает каждый неверный ответ и каждое «Не знаю».</div>`}`;
+  setBottom(list.length ? `<button class="act ghost" id="home">Меню</button><button class="act main" id="go">Прорешать ошибки · ${list.length}</button>` : `<button class="act" id="home">В меню</button>`);
+  document.getElementById('home').onclick=()=>go('home');
+  const g=document.getElementById('go'); if(g) g.onclick=()=>startSession('mist','Работа над ошибками', shuffle(list));
+  view.querySelectorAll('.lv').forEach(b=>b.onclick=()=>{ const k=b.dataset.l; const lab=LEVELS.find(x=>x[0]===k)[1]; startSession('cluster', lab, shuffle(cl[k]).slice(0,30)); });
+  const fr=document.getElementById('fresh'); if(fr) fr.onclick=()=>startSession('cluster','Новые вопросы', shuffle(cl.fresh).slice(0,10));
+  const cb=document.getElementById('clear'); if(cb){ let armed=false; cb.onclick=e=>{ if(!armed){armed=true; e.currentTarget.textContent='Нажми ещё раз'; return;} S.mist={}; save(); render(); }; }
+}
+
+let accHide = 'none';
+function renderAccounts(){
+  header('Счета');
+  const groups=[[0,'Активные'],[1,'Пассивные'],[2,'Активно-пассивные']];
+  const lvl = n => { const a=levelOf(S.seen['an-'+n]), b=levelOf(S.seen['na-'+n]); const order=['none','bad','good','great']; if(!a&&!b) return 'fresh'; if(!a||!b) return a||b; return order[Math.min(order.indexOf(a),order.indexOf(b))]; };
+  view.innerHTML = `<div class="menu">
+      ${item('an','Название → номер','«Основные средства» — какой это счёт?')}
+      ${item('na','Номер → название','«44» — что это за счёт?')}
+      ${item('mix','Вперемешку','Все 54 вопроса в случайном порядке')}
+    </div>
+    <p class="note">В каждом вопросе есть «Не знаю»: лучше честно нажать его, чем угадать. Такой вопрос попадёт в ошибки.</p>
+    <h3 class="sec">Шпаргалка · 27 счетов</h3>
+    <div class="seg3"><button class="chipbtn ${accHide==='none'?'on':''}" data-h="none">Всё видно</button><button class="chipbtn ${accHide==='nm'?'on':''}" data-h="nm">Скрыть названия</button><button class="chipbtn ${accHide==='no'?'on':''}" data-h="no">Скрыть номера</button></div>
+    ${accHide!=='none'?'<p class="note">Вспомни и нажми на строку, чтобы проверить себя.</p>':''}
+    ${groups.map(([k,l])=>{ const rows=ACC.filter(a=>a[2]===k); return `<h3 class="sec">${l} · ${rows.length}</h3><div class="wrong ${accHide==='nm'?'hide-nm':accHide==='no'?'hide-no':''}">${rows.map(a=>`<button class="arow"><i class="dot ${lvl(a[0])}"></i><span class="no">${a[0]}</span><span class="nm">${esc(a[1])}</span></button>`).join('')}</div>`; }).join('')}
+    <div class="legend"><span><i class="dot great"></i>отлично</span><span><i class="dot good"></i>хорошо</span><span><i class="dot bad"></i>плохо</span><span><i class="dot none"></i>не знаю</span><span><i class="dot fresh"></i>не решал</span></div>`;
+  setBottom('');
+  const on=(id,f)=>{const e=document.getElementById(id); if(e) e.onclick=f;};
+  on('m-an',()=>startSession('acc','Счета: название → номер', shuffle(AN_POOL)));
+  on('m-na',()=>startSession('acc','Счета: номер → название', shuffle(NA_POOL)));
+  on('m-mix',()=>startSession('acc','Счета вперемешку', shuffle(AN_POOL.concat(NA_POOL))));
+  view.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{ accHide=b.dataset.h; render(); });
+  view.querySelectorAll('.arow').forEach(r=>r.onclick=()=>r.classList.toggle('reveal'));
+}
+
+function startEntry(){ startSession('entry','Проводки вручную', shuffle(ENTRY_POOL).slice(0,10)); }
+let sortR = null;
+function newSortRound(){
+  let items=[]; [0,1,2,3,4].forEach(sec => items.push(...shuffle(SORT_POOL.filter(q=>q.a===sec)).slice(0,2)));
+  sortR = {items: shuffle(items), picks: items.map(()=>null), checked:false};
+  go('sort');
+}
+function renderSort(){
+  if(!sortR){ newSortRound(); return; }
+  header('Разложи по разделам');
+  const R=sortR, L=['I','II','III','IV','V'];
+  const score = R.checked ? R.items.filter((q,k)=>R.picks[k]===q.a).length : 0;
+  view.innerHTML = `${R.checked ? `<div class="res"><div class="big">${score} / ${R.items.length}</div><div class="st ${score===R.items.length?'good':'bad'}">${score===R.items.length?'Всё верно':'Ошибки ушли в «Мои ошибки»'}</div></div>` : ''}
+    <div class="legend"><span><b>I</b> внеоборотные активы</span><span><b>II</b> оборотные активы</span><span><b>III</b> капитал</span><span><b>IV</b> долгосрочные обязательства</span><span><b>V</b> краткосрочные обязательства</span></div>
+    ${R.items.map((q,k)=>{ const p=R.picks[k], ok=p===q.a; return `<div class="scard ${R.checked?(ok?'ok':'bad'):''}"><div class="sitem"><span class="sn">${k+1}</span><span>${esc(q.item)}</span></div><div class="seg" data-k="${k}">${L.map((l,sec)=>`<button data-s="${sec}" class="${p===sec?'on':''} ${R.checked&&sec===q.a?'right':''} ${R.checked&&p===sec&&sec!==q.a?'wrong':''}" ${R.checked?'disabled':''} aria-label="Раздел ${l}">${l}</button>`).join('')}</div>${R.checked?`<div class="sexpl">${ok?'Верно.':(p===null?'Не выбран. ':'')+'Правильно: '+SEC5[q.a]+'.'} ${esc(q.e)}</div>`:''}</div>`; }).join('')}`;
+  const filled = () => R.picks.filter(x=>x!==null).length;
+  if(R.checked) setBottom(`<button class="act ghost" id="home">Меню</button><button class="act main" id="newr">Новый набор</button>`);
+  else setBottom(`<button class="act ghost" id="home">Меню</button><button class="act main" id="chk">Проверить · ${filled()}/${R.items.length}</button>`);
+  document.getElementById('home').onclick=()=>go('home');
+  const nr=document.getElementById('newr'); if(nr) nr.onclick=newSortRound;
+  const ck=document.getElementById('chk');
+  if(ck) ck.onclick=()=>{ R.checked=true; R.items.forEach((q,k)=>record(q, R.picks[k]===q.a, 'sort')); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  if(!R.checked) view.querySelectorAll('.seg').forEach(seg=>{ const k=+seg.dataset.k; seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ R.picks[k]=+b.dataset.s; seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b)); if(ck) ck.textContent='Проверить · '+filled()+'/'+R.items.length; }); });
+}
+/* ===== build-a-balance task ===== */
+let balR = null;
+const SECN = ['I · Внеоборотные активы','II · Оборотные активы','III · Капитал','IV · Долгосрочные обязательства','V · Краткосрочные обязательства'];
+function genBalance(){
+  const r=(a,b)=>rnd(a,b,10000), p=x=>Math.random()<x, it=[];
+  const os=r(800000,2000000), am=r(100000,Math.max(110000,Math.floor(os*0.4/10000)*10000));
+  it.push(['Основные средства (первоначальная стоимость)',os,0,1],['Накопленная амортизация основных средств',am,0,-1],['Нематериальные активы',r(50000,300000),0,1]);
+  if(p(.7)) it.push(['Долгосрочные финансовые вложения',r(50000,300000),0,1]);
+  it.push(['Материалы',r(100000,400000),1,1],['Готовая продукция',r(80000,300000),1,1],['Дебиторская задолженность покупателей',r(80000,300000),1,1],['Денежные средства на расчётном счёте',r(150000,700000),1,1]);
+  if(p(.6)) it.push(['Товары',r(60000,300000),1,1]);
+  if(p(.5)) it.push(['Краткосрочные финансовые вложения',r(40000,200000),1,1]);
+  if(p(.4)) it.push(['Касса',r(10000,50000),1,1]);
+  if(p(.4)) it.push(['Авансы, выданные поставщикам',r(20000,120000),1,1]);
+  if(p(.3)) it.push(['НДС по приобретённым ценностям',r(10000,80000),1,1]);
+  it.push(['Уставный капитал',r(300000,800000),2,1]);
+  if(p(.7)) it.push(['Добавочный капитал',r(50000,200000),2,1]);
+  if(p(.6)) it.push(['Резервный капитал',r(30000,150000),2,1]);
+  if(p(.5)) it.push(['Кредит банка на 3 года',r(200000,500000),3,1]);
+  it.push(['Задолженность поставщикам',r(100000,350000),4,1],['Задолженность по заработной плате',r(60000,200000),4,1]);
+  if(p(.7)) it.push(['Задолженность по налогам',r(30000,120000),4,1]);
+  if(p(.6)) it.push(['Авансы, полученные от покупателей',r(40000,150000),4,1]);
+  if(p(.6)) it.push(['Краткосрочный займ',r(100000,300000),4,1]);
+  if(p(.3)) it.push(['Задолженность по страховым взносам',r(20000,80000),4,1]);
+  const sumA = () => it.filter(x=>x[2]<2).reduce((t,x)=>t+x[1]*x[3],0);
+  const sumP = () => it.filter(x=>x[2]>=2).reduce((t,x)=>t+x[1],0);
+  let np = sumA()-sumP();
+  if(np < 50000){ const m = it.find(x=>x[0].startsWith('Денежные')); m[1] += (50000-np) + r(0,300000); np = sumA()-sumP(); }
+  it.push(['Нераспределённая прибыль',np,2,1]);
+  const tot=[0,0,0,0,0]; it.forEach(x=>tot[x[2]]+=x[1]*x[3]);
+  return {items: shuffle(it), tot, val: tot[0]+tot[1], ans:['','','','','',''], checked:false};
+}
+function newBalance(){ balR = genBalance(); go('balance'); }
+function renderBalance(){
+  if(!balR){ newBalance(); return; }
+  header('Собери баланс');
+  const B=balR, L=['I','II','III','IV','V'], want=B.tot.concat([B.val]);
+  const num = v => +(String(v).replace(/\D/g,'')||0);
+  const okAt = k => num(B.ans[k])===want[k];
+  const labels = SECN.concat(['Валюта баланса']);
+  const slot = k => `<label class="slot sm ${B.checked?(okAt(k)?'ok':'bad'):''}"><span>${labels[k]}</span><input id="bv${k}" inputmode="numeric" pattern="[0-9 ]*" autocomplete="off" placeholder="0" value="${esc(B.ans[k])}" ${B.checked?'disabled':''}>${B.checked&&!okAt(k)?`<span class="good-v">Верно: ${fmt(want[k])}</span>`:''}</label>`;
+  const allOk = B.checked && want.every((_,k)=>okAt(k));
+  const sol = B.checked ? `<h3 class="sec">Решение</h3><div class="wrong">${[0,1,2,3,4].map(sec=>{ const rows=B.items.filter(x=>x[2]===sec); const parts=[]; rows.forEach(x=>{ if(x[3]<0) return; if(x[0].startsWith('Основные средства')){ const am=B.items.find(y=>y[3]<0); parts.push('('+fmt(x[1])+' − '+fmt(am[1])+')'); } else parts.push(fmt(x[1])); }); return `<div class="witem"><span class="tag">${SECN[sec]}</span><span class="mono">${parts.length?parts.join(' + ')+' = ':''}${fmt(B.tot[sec])}</span></div>`; }).join('')}<div class="witem"><span class="tag">Проверка: I + II = III + IV + V</span><span class="mono">${fmt(B.tot[0])} + ${fmt(B.tot[1])} = ${fmt(B.tot[2])} + ${fmt(B.tot[3])} + ${fmt(B.tot[4])} = ${fmt(B.val)}</span></div></div>` : '';
+  view.innerHTML = `${B.checked?`<div class="res"><div class="st ${allOk?'good':'bad'}">${allOk?'Баланс собран верно':'Есть ошибки: смотри разбор ниже'}</div></div>`:''}
+    <p class="note">Посчитай итог каждого раздела и валюту баланса. Амортизацию вычти из основных средств, IV раздел может быть пустым — тогда впиши 0.</p>
+    <div class="wrong">${B.items.map(x=>`<div class="brow"><span class="bn">${esc(x[0])}</span><span class="ba">${fmt(x[1])}</span>${B.checked?`<span class="btag">${x[3]<0?'I, вычесть':L[x[2]]}</span>`:''}</div>`).join('')}</div>
+    <div class="bgrid">${[0,1,2,3,4,5].map(slot).join('')}</div>
+    ${sol}`;
+  if(B.checked) setBottom(`<button class="act ghost" id="home">Меню</button><button class="act main" id="newb">Новая задача</button>`);
+  else setBottom(`<button class="act ghost" id="home">Меню</button><button class="act main" id="chkb">Проверить</button>`);
+  document.getElementById('home').onclick=()=>go('home');
+  const nb=document.getElementById('newb'); if(nb) nb.onclick=newBalance;
+  if(!B.checked){
+    [0,1,2,3,4,5].forEach(k=>{ const el=document.getElementById('bv'+k); el.oninput=()=>{ const d=el.value.replace(/\D/g,'').slice(0,10); el.value = d ? fmt(+d) : ''; B.ans[k]=el.value; }; el.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); const n=document.getElementById('bv'+(k+1)); if(n) n.focus(); else el.blur(); } }; });
+    document.getElementById('chkb').onclick=()=>{ B.checked=true; const ok=want.every((_,k)=>okAt(k)); S.bal=S.bal||{n:0,perfect:0}; S.bal.n++; if(ok) S.bal.perfect++; save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  }
+}
+/* ===== theory screen ===== */
+function renderTheory(){
+  header('Теория');
+  const SEC_TXT = {'01':'I (минус 02)','04':'I (минус 05)','08':'I','10':'II','20':'II (НЗП)','25':'нет','26':'нет','43':'II','44':'нет','50':'II','51':'II','02':'вычитается из 01','05':'вычитается из 04','68':'V','69':'V','70':'V','80':'III','82':'III','83':'III','19':'II','60':'Кт → V, Дт → II','62':'Дт → II, Кт → V','76':'Дт → II, Кт → V','84':'III','90':'нет','91':'нет','99':'III'};
+  const KS=['А','П','А-П'];
+  const accRows = ACC.map(a=>`<tr><td class="mono">${a[0]}</td><td>${esc(a[1])}</td><td class="nw">${KS[a[2]]}</td><td>${SEC_TXT[a[0]]}</td></tr>`).join('');
+  const T = [
+  ['Актив и пассив', `
+    <p><b>Актив</b> — всё, что у компании <b>есть</b>: здания, станки, материалы, продукция, деньги, а также долги других перед нами.</p>
+    <p><b>Пассив</b> — <b>откуда это взялось</b>: свои деньги (капитал, прибыль) и чужие (кредиты, долги поставщикам, работникам, бюджету).</p>
+    <p><b>Актив = Пассив всегда</b>: это одни и те же деньги с двух сторон. Учредитель вложил 100 000 → в активе деньги 100 000, в пассиве уставный капитал 100 000.</p>
+    <p>Активы делят на <b>внеоборотные</b> (служат дольше года: ОС, НМА, капвложения, долгосрочные финвложения) и <b>оборотные</b> (тратятся или продаются за год: запасы, деньги, долги покупателей, краткосрочные финвложения, НДС).</p>`],
+  ['Счёт, дебет, кредит', `
+    <p><b>Счёт</b> — табличка для одного вида объекта (Касса, Материалы). Рисуют буквой Т: слева <b>дебет</b>, справа <b>кредит</b>. Это просто стороны, не «приход/расход».</p>
+    <div class="tw"><table><tr><th>Вид</th><th>Растёт по</th><th>Остаток</th><th>Формула</th></tr>
+    <tr><td>Активный</td><td>дебету</td><td>Дт</td><td class="mono">Сн + ОбДт − ОбКт</td></tr>
+    <tr><td>Пассивный</td><td>кредиту</td><td>Кт</td><td class="mono">Сн + ОбКт − ОбДт</td></tr>
+    <tr><td>А-П свёрнутый (84, 99)</td><td>—</td><td>Дт или Кт</td><td class="mono">(СнДт − СнКт) + ОбДт − ОбКт</td></tr></table></div>
+    <p>Свёрнутый: результат «+» → дебет (убыток), «−» → кредит (прибыль).</p>
+    <p><b>Развёрнутый А-П (60, 62, 76)</b> — считают по каждому контрагенту отдельно и не сворачивают: кто должен нам → дебет (II раздел), кому должны мы → кредит (V раздел).</p>
+    <p>Запомнить: актив в балансе слева → у активного счёта остаток слева. Пассив справа → у пассивного справа.</p>`],
+  ['Проводка за 3 вопроса', `
+    <p><b>Проводка</b> = дебет счёта + кредит счёта + сумма. Например: Дт 10 Кт 60 — 70 000.</p>
+    <p><b>Двойная запись</b>: каждая операция пишется дважды, по дебету одного и по кредиту другого счёта, на одну сумму.</p>
+    <ol><li>Какие два объекта изменились?</li><li>Каждый — актив или пассив?</li><li>Вырос или уменьшился? <b>Актив растёт по Дт, пассив растёт по Кт.</b> Уменьшение — на противоположной стороне.</li></ol>
+    <p>Пример: начислили зарплату рабочим. Затраты производства (20, актив) ↑ → Дт 20. Долг работникам (70, пассив) ↑ → Кт 70. Итог: <b class="mono">Дт 20 Кт 70</b>.</p>
+    <p>Куда зарплата и амортизация: производство → 20, цех → 25, офис и управление → 26, продажи → 44.</p>`],
+  ['Баланс: 5 разделов', `
+    <div class="tw"><table><tr><th>Раздел</th><th>Что внутри</th><th>Срок</th></tr>
+    <tr><td>I Внеоборотные активы</td><td>ОС (минус амортизация), НМА, капвложения, долгосрочные финвложения</td><td>&gt; 12 мес.</td></tr>
+    <tr><td>II Оборотные активы</td><td>запасы (материалы, НЗП, ГП, товары), НДС, дебиторка, краткосрочные финвложения, деньги</td><td>&lt; 12 мес.</td></tr>
+    <tr><td>III Капитал</td><td>уставный, добавочный, резервный капитал, нераспределённая прибыль</td><td>без срока</td></tr>
+    <tr><td>IV Долгосрочные обязательства</td><td>кредиты и займы больше года</td><td>&gt; 12 мес.</td></tr>
+    <tr><td>V Краткосрочные обязательства</td><td>кредиты до года, долги поставщикам, по зарплате, налогам, авансы полученные</td><td>&lt; 12 мес.</td></tr></table></div>
+    <p><b>Проверка итога:</b> I + II = III + IV + V (валюта баланса). По МСФО: Актив = Капитал + Обязательства.</p>
+    <p><b>Как разложить статью:</b> есть у нас или нам должны → актив; служит больше года → I, иначе II. Свои деньги → III; чужие больше года → IV; остальные чужие → V.</p>
+    <p>Срок считают <b>от отчётной даты</b>: кредит на 3 года, до погашения 5 месяцев → V. Долги покупателей и поставщикам за товары — всегда краткосрочные (операционный цикл).</p>`],
+  ['Валюта баланса и 4 типа операций', `
+    <div class="tw"><table><tr><th>Тип</th><th>Что меняется</th><th>Валюта</th><th>Пример</th></tr>
+    <tr><td>1</td><td>актив ↑ и пассив ↑</td><td>растёт</td><td>материалы в долг, получили кредит, начислили зарплату</td></tr>
+    <tr><td>2</td><td>актив ↓ и пассив ↓</td><td>падает</td><td>заплатили поставщику, погасили кредит, выплатили зарплату</td></tr>
+    <tr><td>3</td><td>внутри актива</td><td>не меняется</td><td>касса → банк, материалы в производство, покупатель вернул долг</td></tr>
+    <tr><td>4</td><td>внутри пассива</td><td>не меняется</td><td>кредитом оплатили поставщика, начислили дивиденды, прибыль → УК</td></tr></table></div>
+    <p>Правило: два объекта <b>в одной части</b> баланса — валюта стоит. <b>В разных</b> — меняется. «Начислено», «в долг», «получен кредит» → растёт. «Оплачено», «погашено», «перечислено» → падает.</p>`],
+  ['Формулы для мини-задач', `
+    <div class="tw"><table><tr><th>Задача</th><th>Как решать</th></tr>
+    <tr><td>Активный счёт</td><td class="mono">Сн + ОбДт − ОбКт</td></tr>
+    <tr><td>Пассивный счёт</td><td class="mono">Сн + ОбКт − ОбДт</td></tr>
+    <tr><td>99 / 84</td><td class="mono">(СнДт − СнКт) + ОбДт − ОбКт; «+» убыток, «−» прибыль</td></tr>
+    <tr><td>ОС в балансе</td><td class="mono">первоначальная − амортизация</td></tr>
+    <tr><td>Запасы</td><td class="mono">материалы + НЗП + ГП + товары</td></tr>
+    <tr><td>Кредиторка</td><td class="mono">поставщики + зарплата + налоги + взносы + авансы полученные</td></tr>
+    <tr><td>Результат по 90</td><td class="mono">выручка − себестоимость − НДС − 26 − 44</td></tr>
+    <tr><td>Себестоимость выпуска</td><td class="mono">НЗП нач + затраты − НЗП кон − отходы</td></tr>
+    <tr><td>Проверка баланса</td><td class="mono">I + II = III + IV + V</td></tr></table></div>`],
+  ['27 счетов', `<div class="tw"><table><tr><th>№</th><th>Название</th><th>Вид</th><th>Раздел</th></tr>${accRows}</table></div>
+    <p>По номеру: 01–59 активные, 60–79 А-П, 80–89 пассивные, 90–99 А-П. Исключения: 02 и 05 пассивные, 19 А-П, 68/69/70 пассивные, 84 А-П.</p>`],
+  ['Метод учёта: 7 элементов', `
+    <div class="tw"><table><tr><th>Пара</th><th>Элемент</th><th>Зачем</th></tr>
+    <tr><td rowspan="2">Сбор: фиксация и проверка</td><td>Документация</td><td>каждый факт оформлен первичным документом</td></tr>
+    <tr><td>Инвентаризация</td><td>сверить фактическое наличие с учётом</td></tr>
+    <tr><td rowspan="2">Сбор: денежное измерение (агрегирование)</td><td>Оценка</td><td>выразить всё в деньгах</td></tr>
+    <tr><td>Калькулирование</td><td>посчитать себестоимость</td></tr>
+    <tr><td>Систематизация</td><td>Счета и двойная запись</td><td>сгруппировать операции по однородным объектам</td></tr>
+    <tr><td rowspan="2">Обобщение и передача</td><td>Баланс</td><td>активы, капитал, обязательства на дату</td></tr>
+    <tr><td>Отчётность</td><td>передать информацию пользователям за период</td></tr></table></div>
+    <p>Реквизиты первичного документа: наименование, дата, организация, содержание операции, её оценка, должности и подписи.</p>
+    <p>Виды оценки: первоначальная (при принятии к учёту), балансовая (за вычетом амортизации), справедливая (МСФО 13).</p>`],
+  ['Виды счетов', `
+    <ul><li><b>Балансовые</b> — их сальдо попадает в баланс. <b>Забалансовые</b> (001–011) — чужое имущество и справка, показываются за балансом, без двойной записи.</li>
+    <li><b>Синтетические</b> — обобщённые, только в деньгах (60 «Поставщики»). <b>Аналитические</b> — расшифровка (по каждому поставщику), в деньгах и в натуре. <b>Субсчёт</b> — промежуточная группировка. Обороты и сальдо аналитики = синтетическому счёту.</li>
+    <li><b>Контрактивные</b> (02, 05) — уменьшают активный счёт в балансе.</li>
+    <li><b>Собирательно-распределительные</b> (25, 26) — копят косвенные затраты, к концу месяца закрываются.</li>
+    <li><b>90, 91</b> — копят доходы и расходы за месяц, разницу отдают в 99.</li></ul>
+    <p>План счетов: 01–09 внеоборотные, 10–19 запасы, 20–29 затраты, 40–49 ГП и товары, 50–59 деньги, 60–79 расчёты, 80–89 капитал, 90–99 результаты.</p>`],
+  ['Отчётность', `
+    <ul><li><b>Бухгалтерский баланс</b> = отчёт о финансовом положении на дату.</li>
+    <li><b>Отчёт о финансовых результатах</b> — прибыль или убыток за период.</li>
+    <li><b>Отчёт об изменениях капитала</b> — как изменились УК, резервы, прибыль.</li>
+    <li><b>Отчёт о движении денежных средств</b> — откуда пришли и куда ушли деньги.</li>
+    <li>Плюс <b>пояснения</b>.</li></ul>
+    <p>Стандарт — ФСБУ 4/2023. Год — с 1 января по 31 декабря. Сдать в ГИРБО — 3 месяца после года. Вычитаемые показатели — в скобках. Зачёт активов и пассивов запрещён.</p>`],
+  ['Частые ловушки', `
+    <ul><li>Амортизация — не строка пассива, а минус из ОС.</li>
+    <li>Авансы полученные — это долг (V), а не доход.</li>
+    <li>Дивиденды — не расход: уменьшают нераспределённую прибыль.</li>
+    <li>Покупка материалов — не расход, это запасы.</li>
+    <li>25, 26, 44, 90, 91 в баланс не попадают.</li>
+    <li>«Долгосрочные финвложения» (мы дали) → I, «долгосрочный кредит» (нам дали) → IV.</li>
+    <li>Покупатель погасил долг → валюта не меняется. Получили аванс → валюта растёт.</li></ul>`]
+  ];
+  view.innerHTML = `<p class="note">Нажми на тему, чтобы раскрыть. Это короткая выжимка; подробный конспект — в документе с теорией.</p>
+    <div class="th">${T.map(([h,b],i)=>`<details ${i===0?'open':''}><summary>${h}</summary><div class="tb">${b}</div></details>`).join('')}</div>`;
+  setBottom(`<button class="act ghost" id="home">Меню</button><button class="act main" id="tq">Проверить себя</button>`);
+  document.getElementById('home').onclick=()=>go('home');
+  document.getElementById('tq').onclick=()=>startSession('topic','Теория к КР', shuffle(KR_POOL));
+}
+function plural(n,a,b,c){ const m10=n%10, m100=n%100; if(m10===1&&m100!==11) return a; if(m10>=2&&m10<=4&&(m100<10||m100>=20)) return b; return c; }
+
+render();
+</script>
+
+</body>
+</html>
